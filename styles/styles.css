@@ -1,0 +1,88 @@
+/* ----------------------------------------
+    Global Styles
+---------------------------------------- */
+html {
+  box-sizing: border-box;
+  font-size: 24px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  height: 100vh;
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Font Awesome Icons */
+.fas {
+  margin: 0 0.5em;
+}
+
+/* Flexbox Styles */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.flex-item {
+  flex: 1 1 0;
+}
+.flex-order-up {
+  order: 1;
+}
+
+/* ----------------------------------------
+    Board Styles
+---------------------------------------- */
+time {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.board {
+  padding: 3em 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: right;
+  background: no-repeat center/cover;
+  background-image: url('../images/bg.jpg');
+}
+.container-board {
+  position: relative;
+  height: 100%;
+  margin: 0 3em;
+}
+.time {
+  font-size: 5rem;
+}
+.date {
+  font-size: 1rem;
+}
+.weather {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.image-location {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+/* ----------------------------------------
+    Panel Styles
+---------------------------------------- */
+.panel {
+  flex-grow: 0;
+  text-align: center;
+}
+.container-panel {
+  width: 25vw;
+  padding: 1em;
+}

@@ -6,9 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Personal Dashboard</title>
 
+    <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
   </head>
 
-  <body>
+  <body class="flex-row flex-align-centre">
+    <div class="board flex-item flex-order-up">
+      <div class="container-board">
+        <time datetime="2019-07-15 08:00">
+          <div class="time">
+            08:00
+          </div>
+          <div class="date">
+            Monday, July 15
+          </div>
+        </time>
+
+        <div class="weather">
+          <p>Weather Currently Unavailable</p>
+        </div>
+
+        <div class="image-location">
+          <i class="fas fa-map-marker-alt"></i><span>Sossusvlei, Namibia</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel flex-item" role="main">
+      <div class="container-panel">
+        <h2>Good morning, Lewis</h2>
+      </div>
+    </div>
   </body>
 </html>
