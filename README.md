@@ -2,6 +2,7 @@
 
 A dynamic personal dashboard for focus and productivity.
 
+[Live Version](https://lewtrn.github.io/dashboard/ "lewtrn.github.io")
 
 
 ## Resources
