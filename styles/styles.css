@@ -13,8 +13,26 @@ html {
   padding: 0;
 }
 body {
-  height: 100vh;
+  color: #1e2022;
   font-family: 'Quicksand', sans-serif;
+}
+h2 {
+  font-weight: 400;
+}
+.body-bg {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: no-repeat center/cover;
+  background-image: url('../images/peyto-lake.jpg');
+  /*background-image: url('https://source.unsplash.com/collection/827743');*/
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+  z-index: -1;
+}
+.container {
+  height: 100vh;
 }
 
 /* Font Awesome Icons */
@@ -32,37 +50,45 @@ body {
   flex-direction: column;
 }
 .flex-item {
-  flex: 1 1 0;
+  flex: 1 1 auto;
 }
 .flex-order-up {
   order: 1;
+}
+.flex-order-down {
+  order: -1;
 }
 
 /* ----------------------------------------
     Board Styles
 ---------------------------------------- */
-time {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
 .board {
-  padding: 3em 0;
+  padding: 2em 0;
+  background: no-repeat center/cover;
+  background-image: url('../images/peyto-lake.jpg');
+  /*background-image: url('https://source.unsplash.com/collection/827743');*/
   color: rgba(255, 255, 255, 0.9);
   text-align: right;
-  background: no-repeat center/cover;
-  background-image: url('../images/bg.jpg');
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 .container-board {
   position: relative;
   height: 100%;
-  margin: 0 3em;
+  margin: 0 2em;
 }
 .time {
   font-size: 5rem;
 }
 .date {
   font-size: 1rem;
+}
+.weather, .image-location {
+  font-size: 0.8rem;
+}
+time {
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 .weather {
   position: absolute;
@@ -76,13 +102,23 @@ time {
 }
 
 /* ----------------------------------------
-    Panel Styles
+    Panel and Sidebar Styles
 ---------------------------------------- */
-.panel {
+.panel, .sidebar {
   flex-grow: 0;
+  background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
 }
 .container-panel {
   width: 25vw;
   padding: 1em;
+}
+.container-sidebar {
+  height: 100%;
+  width: 2.5em;
+  padding: 0.8em 0.3em;
+  justify-content: space-between;
+}
+.bookmark {
+  height: 100%;
 }

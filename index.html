@@ -6,38 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Personal Dashboard</title>
 
+    <!-- Local Scripts -->
+    <script type='text/javascript' src='scripts/board.js' defer></script>
+    <script type='text/javascript' src='scripts/panel.js' defer></script>
+
+    <!-- External Scripts -->
     <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
   </head>
 
-  <body class="flex-row flex-align-centre">
-    <div class="board flex-item flex-order-up">
-      <div class="container-board">
-        <time datetime="2019-07-15 08:00">
-          <div class="time">
-            08:00
-          </div>
-          <div class="date">
-            Monday, July 15
-          </div>
-        </time>
+  <body>
+    <div class="body-bg"></div>
 
-        <div class="weather">
-          <p>Weather Currently Unavailable</p>
+    <div class="container flex-row flex-align-centre">
+      <nav class="sidebar flex-item flex-order-up" role="complementary">
+        <div class="container-sidebar flex-col">
+          <i class="fas fa-search flex-item"></i>
+
+          <div class="bookmark flex-item">
+          </div>
+
+          <i class="fas fa-cog flex-item"></i>
         </div>
+      </nav>
 
-        <div class="image-location">
-          <i class="fas fa-map-marker-alt"></i><span>Sossusvlei, Namibia</span>
+      <div class="board flex-item" roler="banner">
+        <div class="container-board">
+          <time datetime="2019-01-01 08:00">
+            <div class="time">
+              08:00
+            </div>
+            <div class="date">
+              Monday, January 1
+            </div>
+          </time>
+
+          <div class="weather">
+            <p>Weather Currently Unavailable</p>
+          </div>
+
+          <div class="image-location">
+            <i class="fas fa-map-marker-alt"></i><span>Peyto Lake, Canada</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="panel flex-item" role="main">
-      <div class="container-panel">
-        <h2>Good morning, Lewis</h2>
-      </div>
+      <main class="panel flex-item flex-order-down" role="main">
+        <div class="container-panel">
+          <h2><span class="welcome-prefix">Good morning</span>, Lewis</h2>
+        </div>
+      </main>
     </div>
   </body>
 </html>
