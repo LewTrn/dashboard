@@ -6,57 +6,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Personal Dashboard</title>
 
+    <!-- CDN Libraries -->
+    <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
+
     <!-- Local Scripts -->
     <script type='text/javascript' src='scripts/display.js'></script>
 
-    <!-- External Scripts -->
-    <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
-
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles/styles.css">
+    <!-- Local Styles -->
+    <link rel="stylesheet" type="text/css" href="css/bulma.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
 
-  <body>
-    <div class="body-bg"></div>
+  <body class="has-text-dark">
+    <div class="bg-img"></div>
 
-    <div class="container flex-row flex-align-centre">
-      <nav class="sidebar flex-item flex-order-up" role="complementary">
-        <div class="container-sidebar flex-col">
-          <i class="fas fa-search flex-item"></i>
-
-          <div class="bookmark flex-item">
-          </div>
-
-          <i class="fas fa-cog flex-item"></i>
+    <div class="columns is-mobile is-gapless">
+      <div class="board has-background-light column">
+        <div class="container has-text-centered">
+          <h2><span class="welcome-prefix is-size-4">&nbsp;</span></h2>
         </div>
-      </nav>
+      </div>
 
-      <div class="board flex-item" roler="banner">
-        <div class="container-board">
+      <div class="portrait has-text-light txt-shadow column">
+        <div class="container">
           <time datetime="2019-01-01 08:00">
-            <div class="time">
+            <div class="time is-size-1 is-unselectable">
               &nbsp;
             </div>
-            <div class="date">
+            <div class="date is-size-4 is-unselectable">
               &nbsp;
             </div>
           </time>
 
-          <div class="weather">
+          <div class="weather is-size-5">
             <p>Weather Currently Unavailable</p>
           </div>
 
-          <div class="image-location">
+          <div class="image-location is-size-5">
             <i class="fas fa-map-marker-alt"></i><span>Peyto Lake, Canada</span>
           </div>
         </div>
       </div>
 
-      <main class="panel flex-item flex-order-down" role="main">
-        <div class="container-panel">
-          <h2><span class="welcome-prefix">&nbsp;</span></h2>
-        </div>
-      </main>
+      <nav class="sidebar has-background-light column" role="complementary">
+          <div class="container has-text-centered rows space-between">
+            <i class="fas fa-search row"></i>
+  
+            <div class="bookmark row">
+            </div>
+  
+            <i class="fas fa-cog row"></i>
+          </div>
+        </nav>      
     </div>
   </body>
 </html>

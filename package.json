@@ -1,0 +1,25 @@
+{
+  "name": "bulma-dashboard",
+  "version": "1.0.0",
+  "description": "Personal dashboard built using the Bulma CSS framework",
+  "main": "_scss/bulma.scss",
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url _scss/bulma.scss css/bulma.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LewTrn/dashboard.git"
+  },
+  "author": "Lewis Tran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LewTrn/dashboard/issues"
+  },
+  "homepage": "https://github.com/LewTrn/dashboard#readme",
+  "devDependencies": {
+    "bulma": "^0.7.5",
+    "node-sass": "^4.12.0"
+  }
+}

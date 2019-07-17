@@ -1,5 +1,9 @@
 // Time and Date Display
-function updateTimeAndDate(time, date, datetime) {
+function updateTimeAndDate() {
+  const time = document.querySelector('.time'),
+    date = document.querySelector('.date'),
+    datetime = document.querySelector('time');
+
   let now = new Date(),
   timeFormat = { hour: '2-digit', minute: '2-digit' },
   dateFormat = { weekday: 'long', month: 'long', day: 'numeric' };
@@ -13,7 +17,9 @@ function updateTimeAndDate(time, date, datetime) {
 }
 
 // Update Welcome Message
-function updateWelcome(welcome) {
+function updateWelcome() {
+  const welcome = document.querySelector('.welcome-prefix');
+  
   let now = new Date(),
     hour = now.getHours();
 
@@ -34,13 +40,7 @@ function updateWelcome(welcome) {
 // On Load Window Event
 window.addEventListener('load', ()=> {
 
-  // DOM elements
-  const time = document.querySelector('.time'),
-    date = document.querySelector('.date'),
-    datetime = document.querySelector('time'),
-    welcomePrefix = document.querySelector('.welcome-prefix');
-
-  // Display update functions
-  updateTimeAndDate(time, date, datetime);
-  updateWelcome(welcomePrefix);
+  // Run update display functions
+  updateTimeAndDate();
+  updateWelcome();
 });

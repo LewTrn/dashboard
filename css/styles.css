@@ -1,0 +1,76 @@
+/* ----------------------------------------
+    Global Styles
+---------------------------------------- */
+html {
+	overflow: hidden;
+	font-size: 24px;
+}
+.bg-img {
+  position: absolute;
+	top: 0;
+	left: 0;
+  height: 100%;
+  width: 100%;
+  background: url('../images/peyto-lake.jpg') no-repeat center/cover;
+	-webkit-filter: blur(3px);
+	filter: blur(3px);
+  z-index: -1;
+}
+
+/* Utilities */
+.container {
+  height: 100vh;
+  padding: 1em 0;
+}
+.txt-shadow {
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+.rows{
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  flex: 0 1 auto;
+}
+.space-between {
+  justify-content: space-between;
+}
+
+/* ----------------------------------------
+    Portrait Styles
+---------------------------------------- */
+.portrait {
+	background: url('../images/peyto-lake.jpg') no-repeat center/cover;
+	text-align: right;
+}
+.portrait > .container {
+  position: relative;
+}
+time {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+.weather {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+.image-location {
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+}
+
+/* ----------------------------------------
+    Board and Sidebar Styles
+---------------------------------------- */
+.board, .sidebar {
+  flex-grow: 0;
+}
+.board > .container {
+  width: 20vw;
+}
+.sidebar > .container {
+  width: 2.5em;
+}
