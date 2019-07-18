@@ -10,7 +10,8 @@ A dynamic personal dashboard for focus and productivity.
 List of online resources used in this project.
 
 - Unsplash API - [Unsplash](https://unsplash.com/developers "unsplash.com")
-
+- Bulma CSS Framework - [Bulma](https://bulma.io "bulma.io")
+- Font Awesome Icons - [Font Awesome](https://fontawesome.com/ "fontawesome.com/")
 
 
 ## Author
