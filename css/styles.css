@@ -2,18 +2,21 @@
     Global Styles
 ---------------------------------------- */
 html {
-	overflow: hidden;
-	font-size: 24px;
+  overflow: hidden;
+  font-size: 24px;
+}
+input {
+  word-break: normal; /* Fixes text wrapping on Safari */
 }
 .bg-img {
   position: absolute;
-	top: 0;
-	left: 0;
+  top: 0;
+  left: 0;
   height: 100%;
   width: 100%;
-  background: url('../images/peyto-lake.jpg') no-repeat center/cover;
-	-webkit-filter: blur(3px);
-	filter: blur(3px);
+  background: url("../images/peyto-lake.jpg") no-repeat center/cover;
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
   z-index: -1;
 }
 
@@ -23,7 +26,7 @@ html {
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
-  background-color: #00ADB5;
+  background-color: #00adb5;
 }
 ::-webkit-scrollbar-thumb:hover {
   border-radius: 5px;
@@ -38,7 +41,7 @@ html {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 .txt-shadow {
-	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
 }
 .padding-v {
   padding-top: 1em;
@@ -51,7 +54,7 @@ html {
 .remove-radius {
   border-radius: 0;
 }
-.rows{
+.rows {
   display: flex;
   flex-direction: column;
 }
@@ -66,8 +69,8 @@ html {
     Portrait Styles
 ---------------------------------------- */
 .portrait {
-	background: url('../images/peyto-lake.jpg') no-repeat center/cover;
-	text-align: right;
+  background: url("../images/peyto-lake.jpg") no-repeat center/cover;
+  text-align: right;
 }
 .portrait > .container {
   max-width: inherit;
@@ -82,7 +85,8 @@ html {
   border: none;
   outline: none;
 }
-.search > input:hover, .search > input:focus {
+.search > input:hover,
+.search > input:focus {
   border-bottom: 0.05em solid rgba(255, 255, 255, 0.85);
 }
 .weather {
@@ -104,7 +108,8 @@ time {
 /* ----------------------------------------
     Board Styles
 ---------------------------------------- */
-.board, .sidebar {
+.board,
+.sidebar {
   flex-grow: 0;
 }
 .board > .container {
@@ -115,14 +120,14 @@ time {
 }
 .add-overflow {
   height: 100%;
-  overflow: auto; 
+  overflow: auto;
   overflow: overlay; /* Chrome only scrollbar property */
 }
 .brand {
   margin: 1em;
 }
 .dashpoint {
-  background: -webkit-linear-gradient(-90deg, #00ADB5 30%, #222831);
+  background: -webkit-linear-gradient(-90deg, #00adb5 30%, #222831);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
