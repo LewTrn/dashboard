@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashpoint | Personal Dashboard</title>
 
-    <!-- CDN Libraries -->
+    <!-- CDN Resources -->
     <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 
     <!-- Local Scripts -->
-    <script type='text/javascript' src='scripts/display.js'></script>
+    <script type='text/javascript' src='scripts/scripts.js' defer></script>
 
     <!-- Local Styles -->
     <link rel="stylesheet" type="text/css" href="css/bulma.css">
@@ -20,48 +21,64 @@
   <body class="has-text-dark">
     <div class="bg-img"></div>
 
-    <div class="columns is-mobile is-gapless">
-      <div class="board has-background-light column">
+    <main class="columns is-mobile is-gapless" role="main">
+      <section class="board has-background-light column">
         <div class="container has-text-centered rows space-between">
-          <div class="icon-bar row has-background-dark has-text-light">
+          <div class="has-background-dark has-text-light row">
             <div class="buttons has-addons columns is-gapless">
-              <a class="icon is-medium force-white has-text-primary button is-dark column"><i class="fas fa-list-ul"></i></a>
-              <a class="icon is-medium force-white has-text-primary button is-dark column"><i class="fas fa-calculator"></i></a>
-              <a class="icon is-medium force-white has-text-primary button is-dark column"><i class="fas fa-palette"></i></a>
-              <a class="icon is-medium force-white has-text-primary button is-dark column"><i class="fas fa-stopwatch"></i></a>
+              <a class="icon is-white has-text-primary button is-dark column" role="button" tabindex="0" aria-label="To do list"><i class="fas fa-list-ul" aria-hidden="true"></i></a>
+              <a class="icon is-white has-text-primary button is-dark column" role="button" tabindex="0" aria-label="Calculator"><i class="fas fa-calculator" aria-hidden="true"></i></a>
+              <a class="icon is-white has-text-primary button is-dark column" role="button" tabindex="0" aria-label="Color converter"><i class="fas fa-palette" aria-hidden="true"></i></a>
+              <a class="icon is-white has-text-primary button is-dark column" role="button" tabindex="0" aria-label="Timer"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
             </div>
           </div>
           
-          <div class="padding-v padding-h">
+          <div class="focus-banner add-overflow padding-v padding-h animated fadeInLeft" hidden>
             <div class="message is-primary row">
               <div class="message-body">
-                <h3 class="title is-size-5"><span class="welcome-prefix">&nbsp;</span></h3>
-                <h4 class="subtitle is-size-6"><a href="#" class="has-text-link">Add today's focus</a></h4>
+                <h3 class="title is-size-5"><span class="welcome-prefix">,&nbsp;</span></h3>
+
+                <div class="subtitle field">
+                  <form class="add-focus control" onsubmit="return false">
+                    <input class="input is-primary" type="text" placeholder="Add today's focus">
+                  </form>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="tools padding-h row">
-            <article class="message is-primary has-text-left">
-                <div class="message-header">
-                  <p>Memo</p>
-                  <button class="delete" aria-label="delete"></button>
-                </div>
-                <div class="message-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus mi, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus.
-                </div>
-            </article>
+          <div class="prompt padding-h animated fadeInLeft">
+            <div class="message is-warning row">
+              <div class="message-body">
+                <p class="title is-size-6">Get started with Dashpoint</p>
+                <a class="button is-warning is-small">Go To Settings</a><br>
+              </div>
+            </div>
           </div>
           
-          <div class="brand row is-unselectable">
+          <header class="brand row is-unselectable" role="presentation">
             <h1 class="dashpoint title">Dashpoint</h1>
             <h2 class="subtitle">Personal Dashboard</h2>
-          </div>
+          </header>
         </div>
-      </div>
+      </section>
 
-      <div class="portrait has-text-light txt-shadow column is-unselectable">
+      <section class="portrait has-text-light txt-shadow column is-unselectable">
         <div class="container">
+          <form class="search" method="get" action="https://www.google.com/search">
+            <span class="icon is-small is-left padding-h"><i class="fas fa-search" aria-hidden="true"></i></span>
+            <input class="is-size-6 has-text-light" type="text" name="q" size="31" placeholder="Search" tabindex="1">
+          </form>
+
+          <div class="weather is-size-6">
+              <p>Weather Currently Unavailable</p>
+            </div>
+
+          <div class="image-location is-size-6">
+            <span class="icon is-small is-left"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></span>
+            <span>Peyto Lake, Canada</span>
+          </div>
+
           <time datetime="2019-01-01 08:00">
             <div class="time is-size-1">
               &nbsp;
@@ -70,37 +87,24 @@
               &nbsp;
             </div>
           </time>
-
-          <div class="weather is-size-6">
-            <p>Weather Currently Unavailable</p>
-          </div>
-
-          <div class="image-location is-size-6">
-            <span class="icon"><i class="fas fa-map-marker-alt"></i></span>
-            <span>Peyto Lake, Canada</span>
-          </div>
         </div>
-      </div>
+      </section>
 
       <nav class="sidebar has-background-grey column" role="complementary">
-          <div class="container has-text-centered rows space-between">
-            <a class="icon is-medium force-white has-text-primary button is-dark remove-radius row"><i class="fas fa-search"></i></a>
-  
-            <div class="bookmarks-bar row">
-              <div class="bookmarks">
-                <a class="icon force-white has-text-primary"><i class="fab fa-twitter"></i></a>
-                <a class="icon force-white has-text-primary"><i class="fab fa-github"></i></a>
-                <a class="icon force-white has-text-primary"><i class="fab fa-linkedin-in"></i></a>
-                <a class="icon force-white has-text-primary"><i class="fab fa-youtube"></i></a>
-                <a class="icon force-white has-text-primary"">P</a>
-                <a class="icon force-white has-text-primary"">D</a>
-                <a class="icon force-white has-text-primary"><span class="plus">+</span></a>
-              </div>
+        <div class="container has-text-centered rows space-between">
+          <a class="icon is-white has-text-primary button is-dark remove-radius row" role="button" tabindex="0" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></a>
+
+          <div class="add-overflow row">
+            <div class="bookmarks">
+              <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+              <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="Dashboard">D</a>
+              <a class="plus icon is-white has-text-primary" role="button" tabindex="0" aria-label="Add bookmark"></a>
             </div>
-  
-            <a class="icon is-medium force-white has-text-primary button is-dark remove-radius row"><i class="fas fa-cog"></i></a>
           </div>
-        </nav>      
-    </div>
+
+          <a class="icon is-white has-text-primary button is-dark remove-radius row" role="button" tabindex="0" aria-label="Settings"><i class="fas fa-cog" aria-hidden="true"></i></a>
+        </div>
+      </nav>
+    </main>
   </body>
 </html>

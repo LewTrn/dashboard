@@ -11,6 +11,7 @@ List of online resources used in this project.
 
 - Unsplash API - [Unsplash](https://unsplash.com/developers "unsplash.com")
 - Bulma CSS Framework - [Bulma](https://bulma.io "bulma.io")
+- CSS Animation Library - [Animate.css](https://daneden.github.io/animate.css/ "daneden.github.io")
 - Font Awesome Icons - [Font Awesome](https://fontawesome.com/ "fontawesome.com/")
 
 

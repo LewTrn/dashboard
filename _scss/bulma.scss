@@ -6,6 +6,7 @@
 // Custom colours
 $palette-light: rgba(255, 255, 255, 0.85);
 $palette-primary: #00ADB5;
+$palette-primary-contrast: #007A82;
 $palette-grey: rgba(34, 40, 49, 0.85);
 $palette-dark: #222831;
 
@@ -15,25 +16,31 @@ $light: $palette-light;
 $primary: $palette-primary;
 $grey: $palette-grey;
 $dark: $palette-dark;
-$link: $palette-primary;
+$link: $palette-primary-contrast;
 $size-1: 5rem;
 $size-2: 4rem;
 $size-3: 3rem;
 $size-4: 2rem;
-$size-5: 1rem;
-$size-6: 0.75rem;
-$size-7: 0.5rem;
+$size-5: 1.25rem;
+$size-6: 1rem;
+$size-7: 0.75rem;
 $title-weight: 500;
 $title-size: $size-4;
-$subtitle-size: $size-5;
+$subtitle-size: $size-6;
 $body-line-height: 1.2;
 $gap: 0px;
 $message-body-padding: 1em;
+$icon-dimensions-small: 1.5rem;
+$icon-dimensions: 2rem;
 
-// Bulma components
+// Bulma Components
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "../node_modules/bulma/sass/base/_all.sass";
 @import "../node_modules/bulma/sass/elements/_all.sass";
+@import "../node_modules/bulma/sass/form/_all.sass";
 @import "../node_modules/bulma/sass/grid/columns.sass";
 @import "../node_modules/bulma/sass/components/card.sass";
 @import "../node_modules/bulma/sass/components/message.sass";
+
+// Bulma Extensions
+@import '../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass';

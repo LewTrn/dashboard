@@ -34,7 +34,7 @@ html {
 .container {
   height: 100vh;
 }
-.force-white {
+.is-white {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 .txt-shadow {
@@ -70,12 +70,20 @@ html {
 	text-align: right;
 }
 .portrait > .container {
-  position: relative;
+  max-width: inherit;
 }
-time {
+.search {
   position: absolute;
-  bottom: 1em;
-  right: 1em;
+  top: 1em;
+  left: 1em;
+}
+.search input {
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.search > input:hover, .search > input:focus {
+  border-bottom: 0.05em solid rgba(255, 255, 255, 0.85);
 }
 .weather {
   position: absolute;
@@ -87,6 +95,11 @@ time {
   bottom: 1em;
   left: 1em;
 }
+time {
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
 
 /* ----------------------------------------
     Board Styles
@@ -95,10 +108,15 @@ time {
   flex-grow: 0;
 }
 .board > .container {
-  min-width: 20vw;
+  min-width: 30vw;
   max-width: 50vw;
   resize: horizontal;
-  overflow: auto;
+  overflow: auto; /* To allow board resizing */
+}
+.add-overflow {
+  height: 100%;
+  overflow: auto; 
+  overflow: overlay; /* Chrome only scrollbar property */
 }
 .brand {
   margin: 1em;
@@ -111,10 +129,24 @@ time {
 .icon.column {
   display: inherit;
 }
-.tools, .bookmarks-bar {
-  height: 100%;
-  overflow: auto; /* Scrollbar fix for Firefox etc. */
-  overflow: overlay; 
+/* .is-checkradio[type="checkbox"] + label {
+  padding: inherit;
+  padding-left: 1.5rem; 
+} */
+.focus-banner .title {
+  margin-bottom: 2rem;
+}
+.focus-message {
+  text-decoration: none !important;
+}
+.focus-message:hover {
+  text-decoration: underline !important;
+}
+.prompt {
+  padding-top: 1em;
+}
+.prompt .title {
+  margin-bottom: 0.75em !important;
 }
 
 /* ----------------------------------------
@@ -126,10 +158,10 @@ time {
 .icon.row {
   width: inherit;
 }
-.bookmarks > a {
-  margin: 0.25em 0;
-}
 .plus {
+  margin-top: 0 !important;
   font-size: 1.25rem;
-  padding-bottom: 0.5rem;
+}
+.plus:after {
+  content: "+";
 }

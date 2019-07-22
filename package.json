@@ -21,5 +21,8 @@
   "devDependencies": {
     "bulma": "^0.7.5",
     "node-sass": "^4.12.0"
+  },
+  "dependencies": {
+    "bulma-checkradio": "^1.1.1"
   }
 }
