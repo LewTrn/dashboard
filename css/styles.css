@@ -37,6 +37,9 @@ input {
 .container {
   height: 100vh;
 }
+.grab-cursor:hover {
+  cursor: grab;
+}
 .is-white {
   color: rgba(255, 255, 255, 0.85) !important;
 }
@@ -134,6 +137,17 @@ time {
 .icon.column {
   display: inherit;
 }
+.icon-bar .button {
+  margin-bottom: 0;
+  width: 100%;
+}
+.dropdown-item {
+  padding-right: 1rem !important;
+}
+.dropdown-center {
+  left: 50%;
+  transform: translate(-50%, 0);
+}
 /* .is-checkradio[type="checkbox"] + label {
   padding: inherit;
   padding-left: 1.5rem; 
@@ -152,6 +166,17 @@ time {
 }
 .prompt .title {
   margin-bottom: 0.75em !important;
+}
+.round-header {
+  border-radius: 4px;
+}
+.delete.collapse::before {
+  width: 35%;
+  transform: translateX(-80%) translateY(-30%) rotate(45deg);
+}
+.delete.collapse::after {
+  height: 35%;
+  transform: translateX(60%) translateY(-45%) rotate(45deg);
 }
 
 /* ----------------------------------------

@@ -1,14 +1,14 @@
 @charset "utf-8";
 
 // Google Font
-@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Quicksand:300,400,500&display=swap");
 
 /* ----------------------------------------
     Custom Variables
 ---------------------------------------- */
 // Colour palette
 $palette-light: rgba(255, 255, 255, 0.85);
-$palette-primary: #00ADB5;
+$palette-primary: #00adb5;
 $palette-grey: rgba(34, 40, 49, 0.85);
 $palette-dark: #222831;
 
@@ -16,7 +16,7 @@ $palette-dark: #222831;
     Bulma Modifiers
 ---------------------------------------- */
 // Font style modifiers
-$family-sans-serif: 'Quicksand', sans-serif;
+$family-sans-serif: "Quicksand", sans-serif;
 $light: $palette-light;
 $primary: $palette-primary;
 $grey: $palette-grey;
@@ -38,9 +38,13 @@ $body-line-height: 1.2;
 
 // Component sizing modifiers
 $gap: 0px;
+$block-spacing: 1em;
 $message-body-padding: 1em;
 $icon-dimensions-small: 1.5rem;
 $icon-dimensions: 2rem;
+$dropdown-menu-min-width: 120%;
+$dropdown-content-padding-top: 0;
+$dropdown-content-padding-bottom: 0;
 
 /* ----------------------------------------
     Bulma Imports
@@ -56,7 +60,8 @@ $icon-dimensions: 2rem;
 @import "../node_modules/bulma/sass/grid/columns.sass";
 
 @import "../node_modules/bulma/sass/components/card.sass";
+@import "../node_modules/bulma/sass/components/dropdown.sass";
 @import "../node_modules/bulma/sass/components/message.sass";
 
 // Bulma Extensions
-@import '../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass';
+@import "../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass";

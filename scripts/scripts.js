@@ -1,6 +1,18 @@
 /* ----------------------------------------
     Portrait Scripts
 ---------------------------------------- */
+// Search Bar
+function webSearch() {
+  const input = this.querySelector('input');
+  const terms = input.value.trim();
+
+  if (terms) {
+    window.open(`https://www.google.com/search?q=${terms}`, '_self');
+    input.blur();
+  }
+  input.value = '';
+}
+
 // Time and Date Display
 function updateTimeAndDate() {
   const time = document.querySelector('.time');
@@ -40,14 +52,11 @@ function addFocus() {
     field.appendChild(para);
 
     // Click to edit focus listener
-    para.addEventListener(
-      'click',
-      () => {
-        this.removeAttribute('hidden');
-        this.parentNode.removeChild(this.parentNode.lastChild);
-      },
-      false
-    );
+    /* eslint-disable prettier/prettier */
+    para.addEventListener('click', () => {
+      this.removeAttribute('hidden');
+      this.parentNode.removeChild(this.parentNode.lastChild);
+    }, false); /* eslint-disable prettier/prettier */
 
     // Hide form field
     this.setAttribute('hidden', true);
@@ -83,8 +92,9 @@ window.addEventListener('load', () => {
   const focus = document.querySelector('.add-focus');
   const search = document.querySelector('.search');
 
-  // Update today's focus
+  // Submit event listeners
   focus.addEventListener('submit', addFocus, false);
+  search.addEventListener('submit', webSearch, false);
 
   // Update focus panel
   updateWelcome();
