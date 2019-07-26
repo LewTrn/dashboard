@@ -27,40 +27,43 @@
       <section class="board has-background-light column">
         <div class="container has-text-centered rows space-between">
           <div class="has-background-dark has-text-light row">
-            <div class="icon-bar buttons has-addons columns is-gapless">
+            <div class="icon-menu buttons has-addons columns is-gapless">
               <span class="dropdown is-hoverable column">
-                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Notes"><i class="fas fa-pencil-alt"></i></a>
+                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Notes"><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
                 <div class="dropdown-menu dropdown-content">
-                  <a class="dropdown-item is-size-7">
-                    <span class="icon is-small"><i class="far fa-sticky-note"></i></span>Notepad
+                  <a class="dropdown-item is-size-7" name="Notepad" role="button" aria-label="Notepad" tabindex="0">
+                    <span class="icon is-small"><i class="far fa-sticky-note" aria-hidden="true"></i></span>Notepad
                   </a>
-                  <a class="dropdown-item is-size-7">
+                  <a class="dropdown-item is-size-7" name="To-do List" role="button" aria-label="To do list" tabindex="0">
                     <span class="icon is-small"><i class="fas fa-list-ul" aria-hidden="true"></i></span>To-do List
                   </a>
                 </div>
               </span>
+
               <span class="dropdown is-hoverable column">
                 <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Timer"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
                 <div class="dropdown-center dropdown-menu dropdown-content">
-                  <a class="dropdown-item is-size-7">
-                    <span class="icon is-small"><i class="far fa-bell"></i></span>Alarm
+                  <a class="dropdown-item is-size-7" name="Alarm" role="button" aria-label="Alarm" tabindex="0">
+                    <span class="icon is-small"><i class="far fa-bell" aria-hidden="true"></i></span>Alarm
                   </a>
-                  <a class="dropdown-item is-size-7">
-                    <span class="icon is-small"><i class="far fa-hourglass"></i></span>Pomodoro Timer
+                  <a class="dropdown-item is-size-7" name="Pomodoro Timer" role="button" aria-label="Timer" tabindex="0">
+                    <span class="icon is-small"><i class="far fa-hourglass" aria-hidden="true"></i></span>Pomodoro Timer</a>
                   </a>
                 </div>
               </span>
+
               <span class="column">
-                <a class="icon is-white has-text-primary button is-dark" role="button" tabindex="0" aria-label="Calculator"><i class="fas fa-calculator" aria-hidden="true"></i></a>
+                <a class="icon is-white has-text-primary button is-dark" name="Calculator" role="button" aria-label="Calculator" tabindex="0" ><i class="fas fa-calculator" aria-hidden="true"></i></a>
               </span>
+              
               <span class="column">
-                <a class="icon is-white has-text-primary button is-dark" role="button" tabindex="0" aria-label="Color tool"><i class="fas fa-palette" aria-hidden="true"></i></a>
+                <a class="icon is-white has-text-primary button is-dark" name="Colour Converter" role="button" aria-label="Color tool" tabindex="0"><i class="fas fa-palette" aria-hidden="true"></i></a>
               </span>
             </div>
           </div>
 
-          <div class="focus-banner add-overflow padding-v padding-h animated fadeInLeft row" hidden>
-            <div class="message is-dark">
+          <div class="add-overflow padding-v padding-h animated fadeInLeft row">
+            <div class="focus-banner message is-dark" hidden>
               <div class="message-body">
                 <h3 class="title is-size-5"><span class="welcome-prefix">,&nbsp;</span></h3>
 
@@ -72,18 +75,7 @@
               </div>
             </div>
 
-            <div class="cards">
-              <div class="message is-small is-danger">
-                <div class="message-header grab-cursor">
-                  <p>Hello World</p>
-                  <button class="delete" aria-label="delete"></button>
-                </div>
-                <div class="message-body">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. <strong>Pellentesque risus mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
-                  <a>felis venenatis</a> efficitur. Aenean ac <em>eleifend lacus</em>, in mollis lectus. Donec sodales, arcu et sollicitudin porttitor, tortor urna tempor ligula, id porttitor mi magna a neque.
-                </div>
-              </div>
-            </div>
+            <div class="cards"></div>
           </div>
 
           <div class="prompt padding-h animated fadeInLeft row" hidden>
@@ -146,19 +138,22 @@
       </nav>
     </main>
 
-    <script id="cardTemplate" type="text/html">
-      <article class="message is-small">
-        <div id="header-0" class="message-header grab-cursor">
+    <!-- Template HTML Blocks-->
+    <div id="templates" hidden>
+      <article id="cardTemplate" class="message is-small is-dark animated fadeInLeft" data-colour="0">
+        <div class="message-header grab-cursor">
           <p>Card Header</p>
           <div class="card-buttons">
-            <button class="delete collapse" aria-label="collapse"></button>
-            <button class="delete" aria-label="delete"></button>
+            <button class="btn-colour button is-light is-rounded" name="Color" aria-label="Color"><i class="fas fa-tint fa-xs" aria-hidden="true"></i></button>
+            <button class="btn-colour button is-light is-rounded" name="Collapse" aria-label="Collapse"><i class="fas fa-angle-up fa-xs" aria-hidden="true"></i></button>
+            <button class="btn-colour button is-light is-rounded" name="Close" aria-label="Close"><i class="fas fa-times fa-xs" aria-hidden="true"></i></button>
           </div>
         </div>
-        <div id="body-0" class="message-body">
+        <div class="message-body">
           Card Body
         </div>
       </article>
-    </script>
+    </div>
+
   </body>
 </html>

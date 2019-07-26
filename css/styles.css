@@ -8,6 +8,9 @@ html {
 input {
   word-break: normal; /* Fixes text wrapping on Safari */
 }
+button > * {
+  pointer-events: none;
+}
 .bg-img {
   position: absolute;
   top: 0;
@@ -137,7 +140,7 @@ time {
 .icon.column {
   display: inherit;
 }
-.icon-bar .button {
+.icon-menu .button {
   margin-bottom: 0;
   width: 100%;
 }
@@ -170,13 +173,19 @@ time {
 .round-header {
   border-radius: 4px;
 }
-.delete.collapse::before {
-  width: 35%;
-  transform: translateX(-80%) translateY(-30%) rotate(45deg);
+.card-buttons .button {
+  height: 0.87em;
+  padding: 0.1em 0.2em 0em;
 }
-.delete.collapse::after {
-  height: 35%;
-  transform: translateX(60%) translateY(-45%) rotate(45deg);
+.card-buttons .fas {
+  font-size: 0.5em;
+}
+.fa-angle-up {
+  transform: rotate(0deg);
+  transition: transform 150ms ease;
+}
+.fa-angle-up.btn-rotate {
+  transform: rotate(-180deg);
 }
 
 /* ----------------------------------------

@@ -56,7 +56,8 @@ function addFocus() {
     para.addEventListener('click', () => {
       this.removeAttribute('hidden');
       this.parentNode.removeChild(this.parentNode.lastChild);
-    }, false); /* eslint-disable prettier/prettier */
+    }, false);
+    /* eslint-enable prettier/prettier */
 
     // Hide form field
     this.setAttribute('hidden', true);
