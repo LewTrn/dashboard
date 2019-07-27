@@ -42,6 +42,15 @@
   "eslintConfig": {
     "extends": [
       "wesbos"
-    ]
+    ],
+    "rules": {
+      "prettier/prettier": false,
+      "no-plusplus": [
+        2,
+        {
+          "allowForLoopAfterthoughts": true
+        }
+      ]
+    }
   }
 }

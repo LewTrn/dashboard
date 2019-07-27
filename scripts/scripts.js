@@ -52,12 +52,10 @@ function addFocus() {
     field.appendChild(para);
 
     // Click to edit focus listener
-    /* eslint-disable prettier/prettier */
     para.addEventListener('click', () => {
       this.removeAttribute('hidden');
       this.parentNode.removeChild(this.parentNode.lastChild);
     }, false);
-    /* eslint-enable prettier/prettier */
 
     // Hide form field
     this.setAttribute('hidden', true);

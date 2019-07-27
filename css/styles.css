@@ -43,6 +43,9 @@ button > * {
 .grab-cursor:hover {
   cursor: grab;
 }
+.hide {
+  display: none;
+}
 .is-white {
   color: rgba(255, 255, 255, 0.85) !important;
 }
@@ -155,6 +158,10 @@ time {
   padding: inherit;
   padding-left: 1.5rem; 
 } */
+
+/* ----------------------------------------
+    Card Styles
+---------------------------------------- */
 .focus-banner .title {
   margin-bottom: 2rem;
 }
@@ -164,7 +171,8 @@ time {
 .focus-message:hover {
   text-decoration: underline !important;
 }
-.prompt {
+.prompt,
+.notepad .buttons {
   padding-top: 1em;
 }
 .prompt .title {

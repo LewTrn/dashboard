@@ -69,7 +69,7 @@
 
                 <div class="subtitle field">
                   <form class="add-focus control" onsubmit="return false">
-                    <input class="input" type="text" placeholder="Add today's focus" />
+                    <input class="input is-primary" type="text" placeholder="Add today's focus" />
                   </form>
                 </div>
               </div>
@@ -142,17 +142,29 @@
     <div id="templates" hidden>
       <article id="cardTemplate" class="message is-small is-dark animated fadeInLeft" data-colour="0">
         <div class="message-header grab-cursor">
-          <p>Card Header</p>
-          <div class="card-buttons">
-            <button class="btn-colour button is-light is-rounded" name="Color" aria-label="Color"><i class="fas fa-tint fa-xs" aria-hidden="true"></i></button>
-            <button class="btn-colour button is-light is-rounded" name="Collapse" aria-label="Collapse"><i class="fas fa-angle-up fa-xs" aria-hidden="true"></i></button>
-            <button class="btn-colour button is-light is-rounded" name="Close" aria-label="Close"><i class="fas fa-times fa-xs" aria-hidden="true"></i></button>
+          <p>&nbsp;</p>
+          <div class="card-buttons test">
+            <button class="button is-light is-rounded" name="Color" aria-label="Color"><i class="fas fa-tint fa-xs" aria-hidden="true"></i></button>
+            <button class="button is-light is-rounded" name="Collapse" aria-label="Collapse"><i class="fas fa-angle-up fa-xs" aria-hidden="true"></i></button>
+            <button class="button is-light is-rounded" name="Close" aria-label="Close"><i class="fas fa-times fa-xs" aria-hidden="true"></i></button>
           </div>
         </div>
         <div class="message-body">
-          Card Body
+          &nbsp;
         </div>
       </article>
+
+      <form id="notepadTemplate" class="notepad field">
+        <div class="control">
+          <textarea class="themed textarea is-size-7 is-primary"></textarea>
+        </div>
+        <p class="has-text-left" hidden></p>
+
+        <div class="buttons is-right">
+          <button class="themed button is-outlined is-primary is-rounded is-small" type="button">Save</button>
+          <button class="themed button is-outlined is-primary is-rounded is-small" type="reset">Clear</button>
+        </div>
+      </form>
     </div>
 
   </body>
