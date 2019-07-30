@@ -37,8 +37,8 @@ updateTimeAndDate();
 ---------------------------------------- */
 // Add Focus
 function addFocus() {
-  const field = document.querySelector('.focus-banner .field');
   const input = this.querySelector('input');
+  const button = this.querySelector('button').parentNode;
   const message = input.value.trim();
 
   // Check for valid trimmed message
@@ -49,16 +49,18 @@ function addFocus() {
 
     para.appendChild(text);
     para.classList.add('focus-message', 'has-text-primary');
-    field.appendChild(para);
+    this.appendChild(para);
 
     // Click to edit focus listener
     para.addEventListener('click', () => {
-      this.removeAttribute('hidden');
-      this.parentNode.removeChild(this.parentNode.lastChild);
-    }, false);
+      button.toggleAttribute('hidden');
+      input.setAttribute('type', 'text');
+      this.removeChild(this.lastChild);
+    });
 
     // Hide form field
-    this.setAttribute('hidden', true);
+    button.toggleAttribute('hidden');
+    input.setAttribute('type', 'hidden');
     input.value = message;
   } else {
     input.value = '';
@@ -88,12 +90,12 @@ function updateWelcome() {
 // On Load Window Event
 window.addEventListener('load', () => {
   const banner = document.querySelector('.focus-banner');
-  const focus = document.querySelector('.add-focus');
+  const focus = banner.querySelector('form');
   const search = document.querySelector('.search');
 
   // Submit event listeners
-  focus.addEventListener('submit', addFocus, false);
-  search.addEventListener('submit', webSearch, false);
+  focus.addEventListener('submit', addFocus);
+  search.addEventListener('submit', webSearch);
 
   // Update focus panel
   updateWelcome();

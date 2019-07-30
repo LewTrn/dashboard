@@ -1,16 +1,32 @@
 /* ----------------------------------------
     Card Interactions
 ---------------------------------------- */
-// Clones Card Templates
+// Clone Card Templates
 function cardContent(name) {
+  const templateID = `#${name.split(' ')[0].toLowerCase()}Template`;
+
   //  Returns innerHTML based on available templates
-  if (document.querySelector(`#${name.toLowerCase()}Template`)) {
-    const template = document.querySelector(`#${name.toLowerCase()}Template`).cloneNode(true);
+  if (document.querySelector(templateID)) {
+    const template = document.querySelector(templateID).cloneNode(true);
+
     template.removeAttribute('id');
     return template.outerHTML;
   }
-
   return 'No card content found';
+}
+
+// Toggle Element Display/Hide
+function toggleHideAll(parentElements, selectors) {
+  const elements = parentElements.querySelectorAll(selectors);
+
+  // Toggle .hide class for buttons and inputs, else toggle hidden attribute
+  elements.forEach((el) => {
+    if (el.tagName.toLowerCase() === 'button' || el.tagName.toLowerCase() === 'input') {
+      el.classList.toggle('hide');
+    } else {
+      el.toggleAttribute('hidden');
+    }
+  });
 }
 
 // Enable Card Sorting
@@ -24,6 +40,7 @@ function enableSorting() {
     scroll: true,
     scrollSensitivity: 50,
     bubbleScroll: true,
+    handle: '.message-header',
   });
 }
 
@@ -40,11 +57,18 @@ class Card {
     this.ID = ID;
     this.name = name;
     this.colour = colour;
-    this.colourClass = function(i, primary) {
-      let classes = ['is-dark', 'is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger']; // eslint-disable-line prefer-const
+    this.colourClass = function(i, primary, isText) {
+      let classes = ['is-dark', 'is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger'];
       
       // For themes where primary is matched with dark
       classes[0] = primary ? 'is-primary' : classes[0];
+
+      // For text themed colour classes
+      if (isText) {
+        classes = classes.map(function(str) {
+          return `has-text${str.slice(2)}`;
+        });
+      }
 
       return Number.isInteger(i) ? classes[i] : classes[this.colour];
     }
@@ -57,7 +81,7 @@ class Card {
 
     // Modifying template
     template.setAttribute('id', `cardID-${this.ID}`);
-    template.querySelector('.message-header p').innerHTML = this.name;
+    template.querySelector('.message-header p').innerText = this.name;
     template.querySelector('.message-body').innerHTML = cardContent(this.name);
 
     // Place node after focus banner and assign element object property
@@ -77,11 +101,10 @@ class Card {
 
     if (nodeList) {
       nodeList.forEach((el) => {
-        console.log(this.colourClass(), 'was removed')
-        console.log(foo, 'was added')
+        const isAnchor = el.tagName === 'A';
 
-        el.classList.remove(this.colourClass(null, true));
-        el.classList.add(this.colourClass(foo, true));
+        el.classList.remove(this.colourClass(null, true, isAnchor));
+        el.classList.add(this.colourClass(foo, true, isAnchor));
       });
     }
 
@@ -106,28 +129,73 @@ class Card {
 }
 
 class SavedContent extends Card {
-  // Save note content to object
-  saveNote(action) {
-    const note = this.element.querySelector('textarea').value.trim()
-    
-    if(note) {
-      const buttons = this.element.querySelectorAll('.notepad button');
+  constructor(ID, name, colour) {
+    super(ID, name, colour);
+    this.title = name;
+    this.content = [];
+    this.isChecked = [];
+  }
 
-      if (action === 'Edit') {
-        // Edit notepad
+  // Save and update notepad
+  saveNote(form) {
+    const title = this.element.querySelector('input').value.trim();
+    const note = this.element.querySelector('textarea').value.trim();
 
-        buttons[0].innerHTML = 'Save';
-      } else {
-        // Save and update notepad
-        this.content = note;
+    if (title || note) {
+      this.title = title || 'Notepad';
+      this.content = note;
 
-        this.element.querySelector('.notepad p').innerHTML = note;
-        buttons[0].innerHTML = 'Edit';
-      }
+      this.element.querySelector('.message-header p').innerText = this.title;
+      this.element.querySelector('.notepad p').innerText = note;
 
-      buttons[1].classList.toggle('hide')
-      this.element.querySelector('.control').toggleAttribute('hidden');
-      this.element.querySelector('.notepad p').toggleAttribute('hidden');
+      toggleHideAll(form, '.control, p, button, a');
+    }
+  }
+
+  // Add to to-do list
+  addToList() {
+    const item = this.element.querySelector('.to-do-add input');
+    const message = item.value.trim();
+
+    if (message) {
+      this.content.push(message);
+      item.value = '';
+
+      // Clone and modify checkbox template
+      const template = document.querySelector('#checkboxTemplate').cloneNode(true);
+      const input = template.querySelector('input');
+      const label = template.querySelector('label');
+      
+      template.removeAttribute('id');
+      input.id = `item-${this.ID}-${this.content.length}`;
+      label.setAttribute('for', `item-${this.ID}-${this.content.length}`);
+      label.innerText = message;
+      this.element.querySelector('.control').insertBefore(template, item.closest('.to-do-add'));
+    }
+  }
+
+  // Remove checked items and update properties
+  removeCheckedItems() {
+    const checkedCount = this.isChecked.length;
+
+    // Loop through and remove checked items
+    for (let i = 0; i < checkedCount; i++) {
+      this.content.splice(this.isChecked[0] - i, 1);
+      this.isChecked.splice(0, 1);
+      this.element.querySelector('.to-do-item .strike').parentNode.remove();
+    }
+  }
+
+  // Save and update to-do list
+  saveList(form) {
+    const title = this.element.querySelector('input').value.trim();
+
+    if (title || this.content[0]) {
+      this.title = title || 'To-do List';
+
+      this.element.querySelector('.message-header p').innerText = this.title;
+
+      toggleHideAll(form, 'input, button, a');
     }
   }
 }
@@ -157,6 +225,17 @@ window.addEventListener('load', () => {
           cardList[cardID - 1] = new Card(cardID, buttons[i].getAttribute('name'), 0);
         }
         cardList[cardID - 1].appendCard();
+        
+        // Add custom event listeners
+        switch(cardList[cardID - 1].name) {
+          case 'To-do List':
+              cardList[cardID - 1].element.addEventListener('submit', function() {
+                cardList[cardID - 1].addToList();
+              });
+            break;
+          default:
+            break;
+        }
       }
       else {
         console.log('Card list total has been exceeded')
@@ -164,38 +243,73 @@ window.addEventListener('load', () => {
     });
   }
 
-  // Card header events
+  // Card click events
   cards.addEventListener('click', e => {
-    if (e.target.parentNode.classList.contains('card-buttons')) {
-      const card = e.target.closest('article');
-      const cardIndex = card.id.substr(card.id.indexOf('-') + 1, card.id.length) - 1;
+    const card = e.target.closest('article');
+    const cardIndex = card.id.substr(card.id.indexOf('-') + 1, card.id.length) - 1;
 
-      switch (e.target.name.toLowerCase()) {
-        case 'color':
+    // Card header actions
+    if (e.target.parentNode.classList.contains('card-buttons')) {
+      switch (e.target.name) {
+        case 'Color':
           cardList[cardIndex].cycleColour(card.querySelectorAll('.themed'));
           break;
-        case 'collapse':
+        case 'Collapse':
           cardList[cardIndex].collapseCard();
           break;
-        case 'close':
+        case 'Close':
           cardList[cardList[cardIndex].closeCard()] = null;
           break;
         default:
           console.log('Incorrect button name (Accepted names: "Color", "Collapse", "Close")');
           break;
       }
+    } else {
+
+      // Card functionality
+      switch (cardList[cardIndex].name) {
+        case 'Notepad':
+          if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i') {
+            cardList[cardIndex].saveNote(e.target.closest('form'));
+          }
+          break;
+        case 'To-do List':
+          if (e.target.name === 'Add') {
+            cardList[cardIndex].addToList();
+          } else if (e.target.name === 'Remove') {
+            cardList[cardIndex].removeCheckedItems();
+          } else if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i') {
+            cardList[cardIndex].saveList(e.target.closest('form'));
+          }
+          break;
+        default:
+          console.log('Incorrect card object name')
+          break;
+      }
     }
   });
 
-  // Card events
-  cards.addEventListener('click', e => {
-    const cardID = e.target.closest('article').id;
-    const cardIndex = cardID.substr(cardID.indexOf('-') + 1, cardID.length) - 1;
+  // Checkbox event listener
+  cards.addEventListener('change', (e) => {
+    if (e.target.getAttribute('type') === 'checkbox') {
+      const card = e.target.closest('article');
+      const cardIndex = card.id.substr(card.id.indexOf('-') + 1, card.id.length) - 1;
+      const label = e.target.parentNode.querySelector('label');
 
-    if (e.target.innerHTML === 'Save' || e.target.innerHTML === 'Edit') {
-      cardList[cardIndex].saveNote(e.target.innerHTML);
+      // Call index number of checkbox parent div
+      const i = Array.prototype.indexOf.call(e.target.parentElement.parentElement.children, e.target.parentElement) - 1;
+
+      // Register checkbox action
+      label.classList.toggle('strike');
+
+      if (label.classList.contains('strike')) {
+        cardList[cardIndex].isChecked.push(i);
+        cardList[cardIndex].isChecked.sort(function(a, b){return a-b});
+      } else {
+        cardList[cardIndex].isChecked.splice(cardList[cardIndex].isChecked.indexOf(i), 1);
+      }
     }
-  })
+  });
 
   enableSorting();
 });

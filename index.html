@@ -41,13 +41,13 @@
               </span>
 
               <span class="dropdown is-hoverable column">
-                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Timer"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
+                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Clock"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
                 <div class="dropdown-center dropdown-menu dropdown-content">
                   <a class="dropdown-item is-size-7" name="Alarm" role="button" aria-label="Alarm" tabindex="0">
                     <span class="icon is-small"><i class="far fa-bell" aria-hidden="true"></i></span>Alarm
                   </a>
                   <a class="dropdown-item is-size-7" name="Pomodoro Timer" role="button" aria-label="Timer" tabindex="0">
-                    <span class="icon is-small"><i class="far fa-hourglass" aria-hidden="true"></i></span>Pomodoro Timer</a>
+                    <span class="icon is-small"><i class="far fa-hourglass" aria-hidden="true"></i></span>Timer</a>
                   </a>
                 </div>
               </span>
@@ -67,11 +67,16 @@
               <div class="message-body">
                 <h3 class="title is-size-5"><span class="welcome-prefix">,&nbsp;</span></h3>
 
-                <div class="subtitle field">
-                  <form class="add-focus control" onsubmit="return false">
-                    <input class="input is-primary" type="text" placeholder="Add today's focus" />
-                  </form>
-                </div>
+                <form class="subtitle" onsubmit="return false">
+                  <div class="field has-addons">
+                    <div class="add-focus control is-expanded">
+                      <input class="input is-primary" type="text" placeholder="Add today's focus" />
+                    </div>
+                    <div class="control">
+                      <button class="button is-primary"><i class="fas fa-arrow-circle-right" aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
 
@@ -140,6 +145,7 @@
 
     <!-- Template HTML Blocks-->
     <div id="templates" hidden>
+      <!-- Default Card Template-->
       <article id="cardTemplate" class="message is-small is-dark animated fadeInLeft" data-colour="0">
         <div class="message-header grab-cursor">
           <p>&nbsp;</p>
@@ -154,17 +160,45 @@
         </div>
       </article>
 
-      <form id="notepadTemplate" class="notepad field">
+      <!-- Notepad Template -->
+      <form id="notepadTemplate" class="notepad">
         <div class="control">
-          <textarea class="themed textarea is-size-7 is-primary"></textarea>
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none">
+          <textarea class="themed textarea is-size-7 is-primary" placeholder="Note"></textarea>
         </div>
         <p class="has-text-left" hidden></p>
-
         <div class="buttons is-right">
-          <button class="themed button is-outlined is-primary is-rounded is-small" type="button">Save</button>
-          <button class="themed button is-outlined is-primary is-rounded is-small" type="reset">Clear</button>
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Save" aria-label="Save" type="button">Save</button>
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Clear" aria-label="Clear" type="reset">Clear</button>
+          <a class="themed has-text-primary is-size-6" aria-label="Edit" hidden><i class="fas fa-edit" aria-hidden="true"></i></a>
         </div>
       </form>
+
+      <!-- To-do List Template-->
+      <form id="to-doTemplate" class="to-do" onsubmit="return false">
+        <div class="control">
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none">
+          <div class="to-do-add field has-addons">
+            <div class="control is-expanded">
+              <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item"/>
+            </div>
+            <div class="control">
+              <button class="themed button is-size-7 is-primary" name="Add" aria-label="Add item" type="button">Add</button>
+            </div>
+          </div>
+        </div>
+        <div class="buttons is-right">
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Save" aria-label="Save" type="button">Save</button>
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Remove" aria-label="Save" type="button">Remove Checked Items</button>
+          <a class="themed has-text-primary is-size-6" aria-label="Edit" hidden><i class="fas fa-edit" aria-hidden="true"></i></a>
+        </div>
+      </form>
+
+      <!-- Checkbox -->
+      <div id="checkboxTemplate" class="to-do-item field columns">
+        <input class="themed is-checkradio is-small is-primary column" id="exampleCheckbox" type="checkbox">
+        <label for="exampleCheckbox column"></label>
+      </div>
     </div>
 
   </body>

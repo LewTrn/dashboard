@@ -73,6 +73,10 @@ button > * {
 .space-between {
   justify-content: space-between;
 }
+.strike {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
 
 /* ----------------------------------------
     Portrait Styles
@@ -154,10 +158,6 @@ time {
   left: 50%;
   transform: translate(-50%, 0);
 }
-/* .is-checkradio[type="checkbox"] + label {
-  padding: inherit;
-  padding-left: 1.5rem; 
-} */
 
 /* ----------------------------------------
     Card Styles
@@ -171,12 +171,26 @@ time {
 .focus-message:hover {
   text-decoration: underline !important;
 }
+.field {
+  margin-bottom: 0 !important;
+}
 .prompt,
 .notepad .buttons {
   padding-top: 1em;
 }
-.prompt .title {
+.prompt .title,
+.notepad input,
+.notepad a,
+.to-do input,
+.to-do a {
   margin-bottom: 0.75em !important;
+}
+.to-do-item {
+  margin: 0 0.5em 0;
+}
+.to-do-item label {
+  padding-top: 0 !important;
+  line-height: 1.4;
 }
 .round-header {
   border-radius: 4px;
