@@ -21,7 +21,7 @@ function toggleHideAll(parentElements, selectors) {
 
   // Toggle .hide class for buttons and inputs, else toggle hidden attribute
   elements.forEach((el) => {
-    if (el.tagName.toLowerCase() === 'button' || el.tagName.toLowerCase() === 'input') {
+    if (el.tagName.toLowerCase() === 'button' || el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'span') {
       el.classList.toggle('hide');
     } else {
       el.toggleAttribute('hidden');
@@ -46,7 +46,48 @@ function enableSorting() {
 
 // Remove Animation
 function removeAnimation(article) {
-  article.classList.remove('animated');
+  article.classList.remove('animated', 'fadeInLeft', 'shake');
+}
+
+// Limit String Digits
+function limitString(el) {
+  const digits = el.max.length;
+
+  // Restrict input length
+  if (el.value.length > digits) {
+    el.value = el.value.slice(0, digits);
+  }
+}
+
+// Time Change Formatting
+function timeChange(el) {
+  const upper = Number(el.max);
+  const lower = Number(el.min);
+
+  if (upper === 60) {
+    // Wrap and bound rules
+    if (Number(el.value) === upper || Number(el.value) === 0) {
+      el.value = '';
+    }
+
+    if (Number(el.value) === lower || Number(el.value) > 59) {
+      el.value = '59'
+    }
+  } else if (Number(el.value) === 0) {
+    el.value = '';
+  }
+
+  // Pads single digit numbers with leading zero
+  if (el.value.length < el.max.length && el.value !== '') {
+    el.value = 0 + el.value;
+  }
+}
+
+// Return Time In Seconds
+function toSeconds(time) {
+  const seconds = time[0] * 60 * 60 + time[1] * 60 + time[2];
+
+  return seconds;
 }
 
 /* ----------------------------------------
@@ -128,7 +169,7 @@ class Card {
   }
 }
 
-class SavedContent extends Card {
+class Notes extends Card {
   constructor(ID, name, colour) {
     super(ID, name, colour);
     this.title = name;
@@ -147,8 +188,13 @@ class SavedContent extends Card {
 
       this.element.querySelector('.message-header p').innerText = this.title;
       this.element.querySelector('.notepad p').innerText = note;
+      this.element.querySelector('.buttons').classList.toggle('is-centered');
+      this.element.querySelector('.buttons').classList.toggle('is-right');
 
       toggleHideAll(form, '.control, p, button, a');
+    } else {
+      this.element.querySelector('.control input').value = '';
+      this.element.querySelector('.control textarea').value = '';
     }
   }
 
@@ -165,12 +211,16 @@ class SavedContent extends Card {
       const template = document.querySelector('#checkboxTemplate').cloneNode(true);
       const input = template.querySelector('input');
       const label = template.querySelector('label');
+      const UID = Math.random().toString(36).substring(2) + Date.now().toString(36);
       
       template.removeAttribute('id');
-      input.id = `item-${this.ID}-${this.content.length}`;
-      label.setAttribute('for', `item-${this.ID}-${this.content.length}`);
+      input.id = `item-${this.ID}-${UID}`;
+      label.setAttribute('for', `item-${this.ID}-${UID}`);
       label.innerText = message;
+
       this.element.querySelector('.control').insertBefore(template, item.closest('.to-do-add'));
+    } else {
+      this.element.querySelector('.to-do-add .control input').value = '';
     }
   }
 
@@ -194,9 +244,105 @@ class SavedContent extends Card {
       this.title = title || 'To-do List';
 
       this.element.querySelector('.message-header p').innerText = this.title;
+      this.element.querySelector('.buttons').classList.toggle('is-centered');
+      this.element.querySelector('.buttons').classList.toggle('is-right');
 
       toggleHideAll(form, 'input, button, a');
+    } else {
+      this.element.querySelector('.control input').value = '';
     }
+  }
+}
+
+class Clock extends Card {
+  constructor(ID, name, colour) {
+    super(ID, name, colour);
+    this.ends = [];
+    this.play = false;
+    this.flag = false;
+  }
+
+  // Save timer value
+  startTimer(form) {
+    const nodeList = this.element.querySelectorAll('input');
+    const timer = [];
+
+    // Input values for [hours, minutes, seconds]
+    for (let i = 0; i < nodeList.length; i++) {
+      timer[i] = Number(nodeList[i].value);
+    }
+
+    // Convert timer to seconds
+    const seconds = toSeconds(timer);
+
+    if (seconds) {
+      // Updates timer end
+      this.ends = seconds;
+      this.play = true;
+      this.runTimer();
+
+      toggleHideAll(form, 'input, .colon, button, p, a');
+    }
+  }
+
+  // Timer controls
+  controlTimer(icon) {
+    const playPause = this.element.querySelector('.buttons a');
+
+    if (playPause === icon) {
+      // Toggle play/pause icon
+      playPause.querySelector('i').classList.toggle('fa-play');
+      playPause.querySelector('i').classList.toggle('fa-pause');
+      this.play = !this.play;
+
+      // Run timer when previous setTimeout is completed
+      if (this.play && this.flag) {
+        this.runTimer();
+      }
+    } else {
+      this.resetTimer();
+    }
+  }
+
+  // Run timer countdown
+  runTimer() {
+    const remaining = this.ends;
+    const display = this.element.querySelector('.time-display');
+
+    if (remaining) {
+      if (this.play) {
+        const time = new Date(remaining * 1000).toISOString().substr(11, 8);
+  
+        display.innerHTML = time.replace(/:/g, ' : ');
+        this.ends = remaining - 1;
+        this.flag = false;
+  
+        setTimeout(this.runTimer.bind(this), 1000);
+      } else {
+        this.flag = true;
+      }
+    } else {
+      const alert = new Audio('../sounds/timer-beep.mp3');
+
+      // Alert animation and sound
+      setTimeout(removeAnimation, 1000, this.element);
+      this.element.classList.add('animated', 'shake');
+      alert.play();
+
+      this.resetTimer();
+    }
+  }
+
+  // Reset timer
+  resetTimer () {
+    const form = this.element.querySelector('.time-display').closest('form');
+    const playPause = this.element.querySelector('.buttons a');
+
+    this.play = false;
+
+    playPause.querySelector('i').classList.remove('fa-play');
+    playPause.querySelector('i').classList.add('fa-pause');
+    toggleHideAll(form, 'input, .colon, button, p, a');
   }
 }
 
@@ -214,13 +360,16 @@ window.addEventListener('load', () => {
   //  Menu bar event listeners
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', () => {
-      const savedCards = ['Notepad', 'To-do List'];
+      const notesCards = ['Notepad', 'To-do List'];
+      const clockCards = ['Alarm', 'Timer'];
       let cardID = cardList.indexOf(null) + 1; // eslint-disable-line prefer-const
 
       // Limit the user to a maximium number of cards
       if (cardID) {
-        if (savedCards.indexOf(buttons[i].getAttribute('name')) + 1) {
-          cardList[cardID - 1] = new SavedContent(cardID, buttons[i].getAttribute('name'), 0, null);
+        if (notesCards.indexOf(buttons[i].getAttribute('name')) + 1) {
+          cardList[cardID - 1] = new Notes(cardID, buttons[i].getAttribute('name'), 0, null);
+        } else if (clockCards.indexOf(buttons[i].getAttribute('name')) + 1) {
+          cardList[cardID - 1] = new Clock(cardID, buttons[i].getAttribute('name'), 0);
         } else {
           cardList[cardID - 1] = new Card(cardID, buttons[i].getAttribute('name'), 0);
         }
@@ -282,8 +431,15 @@ window.addEventListener('load', () => {
             cardList[cardIndex].saveList(e.target.closest('form'));
           }
           break;
+        case 'Timer':
+          if (e.target.name === 'Start') {
+            cardList[cardIndex].startTimer(e.target.closest('form'));
+          } else if (e.target.tagName.toLowerCase() === 'i') {
+            cardList[cardIndex].controlTimer(e.target.closest('a'));
+          }
+          break;
         default:
-          console.log('Incorrect card object name')
+          console.log('No click event assigned')
           break;
       }
     }

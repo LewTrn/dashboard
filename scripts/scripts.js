@@ -3,7 +3,7 @@
 ---------------------------------------- */
 // Search Bar
 function webSearch() {
-  const input = this.querySelector('input');
+  const input = document.querySelector('.search').querySelector('input');
   const terms = input.value.trim();
 
   if (terms) {
@@ -11,6 +11,19 @@ function webSearch() {
     input.blur();
   }
   input.value = '';
+}
+
+// Search Icon
+function clickSearch() {
+  const input = document.querySelector('.search').querySelector('input');
+
+  // Focus on input or search input value
+  if (input.value) {
+    webSearch();
+  }
+  else {
+    input.focus();
+  }
 }
 
 // Time and Date Display
@@ -92,6 +105,9 @@ window.addEventListener('load', () => {
   const banner = document.querySelector('.focus-banner');
   const focus = banner.querySelector('form');
   const search = document.querySelector('.search');
+
+  // Board interactions
+  search.querySelector('a').addEventListener('click', clickSearch);
 
   // Submit event listeners
   focus.addEventListener('submit', addFocus);

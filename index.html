@@ -46,7 +46,7 @@
                   <a class="dropdown-item is-size-7" name="Alarm" role="button" aria-label="Alarm" tabindex="0">
                     <span class="icon is-small"><i class="far fa-bell" aria-hidden="true"></i></span>Alarm
                   </a>
-                  <a class="dropdown-item is-size-7" name="Pomodoro Timer" role="button" aria-label="Timer" tabindex="0">
+                  <a class="dropdown-item is-size-7" name="Timer" role="button" aria-label="Timer" tabindex="0">
                     <span class="icon is-small"><i class="far fa-hourglass" aria-hidden="true"></i></span>Timer</a>
                   </a>
                 </div>
@@ -70,7 +70,7 @@
                 <form class="subtitle" onsubmit="return false">
                   <div class="field has-addons">
                     <div class="add-focus control is-expanded">
-                      <input class="input is-primary" type="text" placeholder="Add today's focus" />
+                      <input class="input is-primary" type="text" placeholder="Add today's focus" required/>
                     </div>
                     <div class="control">
                       <button class="button is-primary"><i class="fas fa-arrow-circle-right" aria-hidden="true"></i></button>
@@ -102,7 +102,7 @@
       <section class="portrait has-text-light txt-shadow column is-unselectable">
         <div class="container">
           <form class="search" onsubmit="return false">
-            <span class="icon is-small is-left padding-h"><i class="fas fa-search" aria-hidden="true"></i></span>
+            <a class="icon is-small is-left has-text-light padding-h"><i class="fas fa-search" aria-hidden="true"></i></a>
             <input class="is-size-6 has-text-light" type="text" placeholder="Search" tabindex="1" />
           </form>
 
@@ -167,7 +167,7 @@
           <textarea class="themed textarea is-size-7 is-primary" placeholder="Note"></textarea>
         </div>
         <p class="has-text-left" hidden></p>
-        <div class="buttons is-right">
+        <div class="buttons is-centered">
           <button class="themed button is-outlined is-primary is-rounded is-small" name="Save" aria-label="Save" type="button">Save</button>
           <button class="themed button is-outlined is-primary is-rounded is-small" name="Clear" aria-label="Clear" type="reset">Clear</button>
           <a class="themed has-text-primary is-size-6" aria-label="Edit" hidden><i class="fas fa-edit" aria-hidden="true"></i></a>
@@ -187,7 +187,7 @@
             </div>
           </div>
         </div>
-        <div class="buttons is-right">
+        <div class="buttons is-centered">
           <button class="themed button is-outlined is-primary is-rounded is-small" name="Save" aria-label="Save" type="button">Save</button>
           <button class="themed button is-outlined is-primary is-rounded is-small" name="Remove" aria-label="Save" type="button">Remove Checked Items</button>
           <a class="themed has-text-primary is-size-6" aria-label="Edit" hidden><i class="fas fa-edit" aria-hidden="true"></i></a>
@@ -200,6 +200,24 @@
         <label for="exampleCheckbox column"></label>
       </div>
     </div>
+
+    <!-- Timer Template -->
+    <form id="timerTemplate" class="timer">
+      <div class="time-input columns padding-h">
+        <input class="input themed is-primary column" type="number" max="99" min="0" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00h">
+        <span class="colon column">:</span>
+        <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00m">
+        <span class="colon column">:</span>
+        <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00s">    
+      </div>
+      <p class="time-display has-text-centered is-size-4" hidden>&nbsp;</p>
+      <div class="buttons is-centered">
+        <button class="themed button is-outlined is-primary is-rounded is-small" name="Start" aria-label="Start" type="button">Start</button>
+        <a class="themed has-text-primary is-size-6" aria-label="PlayPause" hidden><i class="fas fa-pause" aria-hidden="true"></i></a>
+        <a class="themed has-text-primary is-size-6" aria-label="Reset" hidden><i class="fas fa-undo-alt" aria-hidden="true"></i></a>
+      </div>
+
+    </form>
 
   </body>
 </html>
