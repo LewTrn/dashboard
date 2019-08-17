@@ -28,34 +28,22 @@
         <div class="container has-text-centered rows space-between">
           <div class="has-background-dark has-text-light row">
             <div class="icon-menu buttons has-addons columns is-gapless">
-              <span class="dropdown is-hoverable column">
-                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Notes"><i class="fas fa-pencil-alt" aria-hidden="true"></i></a>
-                <div class="dropdown-menu dropdown-content">
-                  <a class="dropdown-item is-size-7" name="Notepad" role="button" aria-label="Notepad" tabindex="0">
-                    <span class="icon is-small"><i class="far fa-sticky-note" aria-hidden="true"></i></span>Notepad
-                  </a>
-                  <a class="dropdown-item is-size-7" name="To-do List" role="button" aria-label="To do list" tabindex="0">
-                    <span class="icon is-small"><i class="fas fa-list-ul" aria-hidden="true"></i></span>To-do List
-                  </a>
-                </div>
-              </span>
-
-              <span class="dropdown is-hoverable column">
-                <a class="icon is-white has-text-primary button is-dark dropdown-trigger" tabindex="0" aria-label="Clock"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
-                <div class="dropdown-center dropdown-menu dropdown-content">
-                  <a class="dropdown-item is-size-7" name="Alarm" role="button" aria-label="Alarm" tabindex="0">
-                    <span class="icon is-small"><i class="far fa-bell" aria-hidden="true"></i></span>Alarm
-                  </a>
-                  <a class="dropdown-item is-size-7" name="Timer" role="button" aria-label="Timer" tabindex="0">
-                    <span class="icon is-small"><i class="far fa-hourglass" aria-hidden="true"></i></span>Timer</a>
-                  </a>
-                </div>
+              <span class="column">
+                <a class="icon is-white has-text-primary button is-dark" name="Notepad" role="button" aria-label="notepad" tabindex="0"><i class="fas fa-sticky-note" aria-hidden="true"></i></a>
               </span>
 
               <span class="column">
-                <a class="icon is-white has-text-primary button is-dark" name="Calculator" role="button" aria-label="Calculator" tabindex="0" ><i class="fas fa-calculator" aria-hidden="true"></i></a>
+                <a class="icon is-white has-text-primary button is-dark" name="To-do List" role="button" aria-label="To-do List" tabindex="0"><i class="fas fa-list-ul" aria-hidden="true"></i></a>
               </span>
-              
+
+              <span class="column">
+                <a class="icon is-white has-text-primary button is-dark" name="Timer" role="button" aria-label="Timer" tabindex="0"><i class="fas fa-stopwatch" aria-hidden="true"></i></a>
+              </span>
+
+              <span class="column">
+                <a class="icon is-white has-text-primary button is-dark" name="Calculator" role="button" aria-label="Calculator" tabindex="0"><i class="fas fa-calculator" aria-hidden="true"></i></a>
+              </span>
+
               <span class="column">
                 <a class="icon is-white has-text-primary button is-dark" name="Colour Converter" role="button" aria-label="Color tool" tabindex="0"><i class="fas fa-palette" aria-hidden="true"></i></a>
               </span>
@@ -70,7 +58,7 @@
                 <form class="subtitle" onsubmit="return false">
                   <div class="field has-addons">
                     <div class="add-focus control is-expanded">
-                      <input class="input is-primary" type="text" placeholder="Add today's focus" required/>
+                      <input class="input is-primary" type="text" placeholder="Add today's focus" required />
                     </div>
                     <div class="control">
                       <button class="button is-primary"><i class="fas fa-arrow-circle-right" aria-hidden="true"></i></button>
@@ -103,7 +91,7 @@
         <div class="container">
           <form class="search" onsubmit="return false">
             <a class="icon is-small is-left has-text-light padding-h"><i class="fas fa-search" aria-hidden="true"></i></a>
-            <input class="is-size-6 has-text-light" type="text" placeholder="Search" tabindex="1" />
+            <input class="is-size-6 has-text-light" type="text" placeholder="Search" tabindex="0" />
           </form>
 
           <div class="weather is-size-6">
@@ -163,7 +151,7 @@
       <!-- Notepad Template -->
       <form id="notepadTemplate" class="notepad">
         <div class="control">
-          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none">
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" />
           <textarea class="themed textarea is-size-7 is-primary" placeholder="Note"></textarea>
         </div>
         <p class="has-text-left" hidden></p>
@@ -177,10 +165,10 @@
       <!-- To-do List Template-->
       <form id="to-doTemplate" class="to-do" onsubmit="return false">
         <div class="control">
-          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none">
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" />
           <div class="to-do-add field has-addons">
             <div class="control is-expanded">
-              <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item"/>
+              <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item" />
             </div>
             <div class="control">
               <button class="themed button is-size-7 is-primary" name="Add" aria-label="Add item" type="button">Add</button>
@@ -196,28 +184,117 @@
 
       <!-- Checkbox -->
       <div id="checkboxTemplate" class="to-do-item field columns">
-        <input class="themed is-checkradio is-small is-primary column" id="exampleCheckbox" type="checkbox">
+        <input class="themed is-checkradio is-small column" id="exampleCheckbox" type="checkbox" />
         <label for="exampleCheckbox column"></label>
       </div>
+
+      <!-- Timer Template -->
+      <form id="timerTemplate" class="timer">
+        <div class="time-input columns padding-h">
+          <input class="input themed is-primary column" type="number" max="24" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00h" />
+          <span class="colon column">:</span>
+          <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00m" />
+          <span class="colon column">:</span>
+          <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00s" />
+        </div>
+        <p class="time-display has-text-centered is-size-4" hidden>&nbsp;</p>
+        <div class="buttons is-centered">
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Start" aria-label="Start" type="button">Start</button>
+          <button class="themed button is-outlined is-primary is-rounded is-small" name="Clear" aria-label="Clear" type="reset">Clear</button>
+          <a class="themed has-text-primary is-size-6" aria-label="PlayPause" hidden><i class="fas fa-pause" aria-hidden="true"></i></a>
+          <a class="themed has-text-primary is-size-6" aria-label="Reset" hidden><i class="fas fa-undo-alt" aria-hidden="true"></i></a>
+        </div>
+      </form>
+
+      <!-- Calculator Template -->
+      <div id="calculatorTemplate" class="calculator">
+        <div class="message is-light">
+          <div class="message-body">
+            <p class="calc-entry has-text-right">
+              0
+            </p>
+            <p class="calc-preview themed has-text-primary has-text-right is-size-7">
+              &nbsp;
+            </p>
+          </div>
+        </div>
+        <div class="buttons has-addons">
+          <span class="themed button is-outlined is-primary is-small" name="AC" aria-label="AC" type="button">AC</span>
+          <span class="themed button is-outlined is-primary is-small" name="Delete" aria-label="Delete" type="button">DEL</span>
+          <span class="themed button is-outlined is-primary is-small" name="Brackets" aria-label="Brackets" type="button">( )</span>
+          <span class="themed button is-primary is-small" name="Divide" aria-label="Divide" type="button">&divide;</span>
+        </div>
+        <div class="buttons has-addons">
+          <span class="themed button is-outlined is-primary is-small" name="Seven" aria-label="Seven" type="button">7</span>
+          <span class="themed button is-outlined is-primary is-small" name="Eight" aria-label="Eight" type="button">8</span>
+          <span class="themed button is-outlined is-primary is-small" name="Nine" aria-label="Nine" type="button">9</span>
+          <span class="themed button is-primary is-small" name="Multiply" aria-label="Multiply" type="button">x</span>
+        </div>
+        <div class="buttons has-addons">
+          <span class="themed button is-outlined is-primary is-small" name="Four" aria-label="Four" type="button">4</span>
+          <span class="themed button is-outlined is-primary is-small" name="Five" aria-label="Five" type="button">5</span>
+          <span class="themed button is-outlined is-primary is-small" name="Six" aria-label="Six" type="button">6</span>
+          <span class="themed button is-primary is-small" name="Subtract" aria-label="Subtract" type="button">-</span>
+        </div>
+        <div class="buttons has-addons">
+          <span class="themed button is-outlined is-primary is-small" name="One" aria-label="One" type="button">1</span>
+          <span class="themed button is-outlined is-primary is-small" name="Two" aria-label="Two" type="button">2</span>
+          <span class="themed button is-outlined is-primary is-small" name="Three" aria-label="Three" type="button">3</span>
+          <span class="themed button is-primary is-small" name="Add" aria-label="Add" type="button">+</span>
+        </div>
+        <div class="buttons has-addons">
+          <span class="zero themed button is-outlined is-primary is-small" name="Zero" aria-label="Zero" type="button">0</span>
+          <span class="themed button is-outlined is-primary is-small" name="Decimal" aria-label="Decimal" type="button">.</span>
+          <span class="equals themed button is-primary is-small" name="Equals" aria-label="Equals" type="button">=</span>
+        </div>
+      </div>
+
+      <!-- Colour Converter Template -->
+      <!-- <form id="colourTemplate" class="has-text-left">
+        <p>Enter colour code:</p>
+        <div class="to-do-add field has-addons">
+          <div class="control is-expanded">
+            <input class="themed input is-size-7 is-primary" type="text" placeholder="e.g. #00adb5" />
+          </div>
+          <div class="control">
+            <button class="themed button is-size-7 is-primary" name="Convert" aria-label="Convert" type="button">Convert</button>
+          </div>
+        </div>
+        <div class="box"></div>
+        <div class="field has-addons">
+          <p class="control">
+            <a class="button is-static is-size-7">Hex</a>
+          </p>
+          <p class="control is-expanded">
+            <input class="input is-size-7" type="text" value="#123456" />
+          </p>
+          <p class="control">
+            <button class="button themed is-size-7 is-primary" name="Copy" aria-label="Copy" type="button"><i class="far fa-clipboard" aria-hidden="true"></i></button>
+          </p>
+        </div>
+        <div class="field has-addons">
+          <p class="control">
+            <a class="button is-static is-size-7">RGB</a>
+          </p>
+          <p class="control is-expanded">
+            <input class="input is-size-7" type="text" value="#123456" />
+          </p>
+          <p class="control">
+            <button class="button themed is-size-7 is-primary" name="Copy" aria-label="Copy" type="button"><i class="far fa-clipboard" aria-hidden="true"></i></button>
+          </p>
+        </div>
+        <div class="field has-addons">
+          <p class="control">
+            <a class="button is-static is-size-7">HSL</a>
+          </p>
+          <p class="control is-expanded">
+            <input class="input is-size-7" type="text" value="#123456" />
+          </p>
+          <p class="control">
+            <button class="button themed is-size-7 is-primary" name="Copy" aria-label="Copy" type="button"><i class="far fa-clipboard" aria-hidden="true"></i></button>
+          </p>
+        </div>
+      </form> -->
     </div>
-
-    <!-- Timer Template -->
-    <form id="timerTemplate" class="timer">
-      <div class="time-input columns padding-h">
-        <input class="input themed is-primary column" type="number" max="99" min="0" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00h">
-        <span class="colon column">:</span>
-        <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00m">
-        <span class="colon column">:</span>
-        <input class="input themed is-primary column" type="number" max="60" min="-1" oninput="limitString(this)" onchange="timeChange(this)" placeholder="00s">    
-      </div>
-      <p class="time-display has-text-centered is-size-4" hidden>&nbsp;</p>
-      <div class="buttons is-centered">
-        <button class="themed button is-outlined is-primary is-rounded is-small" name="Start" aria-label="Start" type="button">Start</button>
-        <a class="themed has-text-primary is-size-6" aria-label="PlayPause" hidden><i class="fas fa-pause" aria-hidden="true"></i></a>
-        <a class="themed has-text-primary is-size-6" aria-label="Reset" hidden><i class="fas fa-undo-alt" aria-hidden="true"></i></a>
-      </div>
-
-    </form>
-
   </body>
 </html>

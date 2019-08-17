@@ -184,7 +184,8 @@ time {
 .notepad a,
 .to-do input,
 .to-do a,
-.timer a {
+.timer a,
+.calculator .message {
   margin-bottom: 0.5em !important;
 }
 .to-do-item {
@@ -208,6 +209,19 @@ time {
 }
 .timer a {
   margin-left: 0.75em;
+}
+.calculator .message-body {
+  padding: 0.75em;
+}
+.calculator .buttons {
+  margin-bottom: 0;
+}
+.calculator .button {
+  width: 25.1%;
+  margin-bottom: -1px;
+}
+.calculator .zero {
+  width: calc(50.2% - 1px);
 }
 .round-header {
   border-radius: 4px;

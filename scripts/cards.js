@@ -64,17 +64,12 @@ function timeChange(el) {
   const upper = Number(el.max);
   const lower = Number(el.min);
 
-  if (upper === 60) {
-    // Wrap and bound rules
-    if (Number(el.value) === upper || Number(el.value) === 0) {
-      el.value = '';
-    }
-
-    if (Number(el.value) === lower || Number(el.value) > 59) {
-      el.value = '59'
-    }
-  } else if (Number(el.value) === 0) {
+  // Wrap and bound rules
+  if (Number(el.value) === upper || Number(el.value) === 0) {
     el.value = '';
+  }
+  if (Number(el.value) === lower || Number(el.value) > upper - 1) {
+    el.value = upper - 1;
   }
 
   // Pads single digit numbers with leading zero
@@ -142,10 +137,10 @@ class Card {
 
     if (nodeList) {
       nodeList.forEach((el) => {
-        const isAnchor = el.tagName === 'A';
+        const isText = el.tagName.toLowerCase() === 'a' || el.tagName.toLowerCase() === 'p';
 
-        el.classList.remove(this.colourClass(null, true, isAnchor));
-        el.classList.add(this.colourClass(foo, true, isAnchor));
+        el.classList.remove(this.colourClass(null, true, isText));
+        el.classList.add(this.colourClass(foo, true, isText));
       });
     }
 
@@ -165,6 +160,7 @@ class Card {
   // Removes card and returns card ID for reassignment
   closeCard() {
     this.element.remove();
+    this.element = null;
     return this.ID - 1;
   }
 }
@@ -215,6 +211,7 @@ class Notes extends Card {
       
       template.removeAttribute('id');
       input.id = `item-${this.ID}-${UID}`;
+      input.classList.add(this.colourClass(this.colour, true));
       label.setAttribute('for', `item-${this.ID}-${UID}`);
       label.innerText = message;
 
@@ -259,7 +256,7 @@ class Clock extends Card {
     super(ID, name, colour);
     this.ends = [];
     this.play = false;
-    this.flag = false;
+    this.timeout = false;
   }
 
   // Save timer value
@@ -296,7 +293,7 @@ class Clock extends Card {
       this.play = !this.play;
 
       // Run timer when previous setTimeout is completed
-      if (this.play && this.flag) {
+      if (this.play && this.timeout) {
         this.runTimer();
       }
     } else {
@@ -306,30 +303,33 @@ class Clock extends Card {
 
   // Run timer countdown
   runTimer() {
-    const remaining = this.ends;
-    const display = this.element.querySelector('.time-display');
+    // Prevent script from executing if the card has been deleted
+    if (this.element) {
+      const remaining = this.ends;
+      const display = this.element.querySelector('.time-display');
 
-    if (remaining) {
-      if (this.play) {
-        const time = new Date(remaining * 1000).toISOString().substr(11, 8);
-  
-        display.innerHTML = time.replace(/:/g, ' : ');
-        this.ends = remaining - 1;
-        this.flag = false;
-  
-        setTimeout(this.runTimer.bind(this), 1000);
+      if (remaining) {
+        if (this.play) {
+          const time = new Date(remaining * 1000).toISOString().substr(11, 8);
+    
+          display.innerHTML = time.replace(/:/g, ' : ');
+          this.ends = remaining - 1;
+          this.timeout = false;
+    
+          setTimeout(this.runTimer.bind(this), 1000);
+        } else {
+          this.timeout = true;
+        }
       } else {
-        this.flag = true;
+        const alert = new Audio('../sounds/timer-beep.mp3');
+
+        // Alert animation and sound
+        setTimeout(removeAnimation, 1000, this.element);
+        this.element.classList.add('animated', 'shake');
+        alert.play();
+
+        this.resetTimer();
       }
-    } else {
-      const alert = new Audio('../sounds/timer-beep.mp3');
-
-      // Alert animation and sound
-      setTimeout(removeAnimation, 1000, this.element);
-      this.element.classList.add('animated', 'shake');
-      alert.play();
-
-      this.resetTimer();
     }
   }
 
@@ -339,10 +339,159 @@ class Clock extends Card {
     const playPause = this.element.querySelector('.buttons a');
 
     this.play = false;
-
     playPause.querySelector('i').classList.remove('fa-play');
     playPause.querySelector('i').classList.add('fa-pause');
     toggleHideAll(form, 'input, .colon, button, p, a');
+  }
+}
+
+// Miscellaneous Card Tools
+class Misc extends Card {
+  constructor(ID, name, colour) {
+    super(ID, name, colour);
+    this.entry = '0';
+  }
+
+  // Calculator action
+  calcAction(key) {
+    const last = this.entry.split(' ').splice(-1).toString();
+    let solve = false;
+
+    // Remove obsolete decimal
+    if (!/[0-9]|^DEL$|\./.test(key) && /\.$/.test(last)) {
+      this.entry = this.entry.substr(0, this.entry.length - 1);
+    }
+
+    // Sorting calculator operations
+    switch (key) {
+      case 'AC':
+        this.entry = '0';
+        break;
+      case 'DEL':
+        this.entry = /[+-x÷]\s$/.test(this.entry) ? this.entry.substr(0, this.entry.length - 3) : this.entry.substr(0, this.entry.length - 1);
+        this.entry = this.entry.length === 0 ? '0' : this.entry;
+        break;
+      case '( )': {
+        // Regex check for valid operation
+        if (/^0(?!\.)/.test(last)) {
+          this.entry = `${this.entry.substr(0, this.entry.length - 1)}(`;
+        } else if (/[(\s-]$/.test(this.entry)) {
+          this.entry += '('
+        } else {
+          // Closing brackets check
+          const toClose = (this.entry.match(/\(/g) || []).length - (this.entry.match(/\)/g) || []).length;
+
+          if (toClose) {
+            this.entry += ')';
+          } else if (/[0-9).]$/.test(this.entry)) {
+            this.entry += ' x (';
+          }
+        }        
+        break;
+      }
+      case '=':
+        this.entry = this.calcDisp();
+        solve = true;
+        break;
+      case '+':
+      case '-':
+      case 'x':
+      case '÷':
+        // Regex check for entry first zero
+        if (/^0(?!\.)/.test(this.entry)) {
+          if (/^-$/.test(key)) {
+            this.entry = `(${key}`
+          }
+          break;
+        }
+        // Regex check for valid operation
+        if (/[0-9).]$/.test(this.entry)) {
+          this.entry += ` ${key} `;
+        }
+        if (/\($/.test(this.entry) && /^-$/.test(key)) {
+          this.entry += key;
+        }
+        if (/[+-x÷]\s$/.test(this.entry)) {
+          this.entry  = `${this.entry.substr(0, this.entry.length - 3)} ${key} `;
+        }
+        break;
+      case '.': 
+        // Regex check for valid decimal in last expression
+        if (!/\./.test(last) && /[^)]$/.test(this.entry)) {
+          this.entry += key;
+        }
+        break;
+      default:
+        // Removes invalid leading zeros
+        if (/^0(?!\.)/.test(last)) {
+          this.entry = this.entry.substr(0, this.entry.length - 1);
+        }
+        // Adds bracket multiply for clarity
+        if (/\)$/.test(this.entry)) {
+          this.entry += ' x ';
+        }
+        // Limit string length
+        if (last.length > 12) {
+          break;
+        }
+        this.entry += key;
+        break;
+    }
+
+    // Update calculator display
+    const display = this.element.querySelector('.calc-entry');
+    const preview = this.element.querySelector('.calc-preview');
+
+    display.innerHTML = this.entry;
+    preview.innerHTML = this.calcDisp(solve, true);
+  }
+
+  // Formats string expression
+  calcFormat() {
+    const toClose = (this.entry.match(/\(/g) || []).length - (this.entry.match(/\)/g) || []).length;
+    let expression = this.entry;
+
+    // Remove obsolete operators
+    if (/[+-x÷]\s$/.test(this.entry)) {
+      expression = expression.substr(0, expression.length - 3);
+    }
+
+    // Close brackets and format operators
+    expression += ')'.repeat(toClose);
+    expression = expression.replace(/x/g, '*').replace(/÷/g, '/');
+
+    return expression;
+  }
+
+  // Evaluates string expression
+  calcEval() {
+    try {
+      eval(this.calcFormat());
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Returns calculator display string
+  calcDisp(force, preview) {
+    const expression = this.calcFormat();
+    
+    // Valid expression
+    if (this.calcEval()) {
+      if (preview) {
+        if (!(expression.trim().split(' ').length < 3 || !/[0-9).]$/.test(expression)) && !(/\s$/.test(this.entry))) {
+          return Number(eval(expression).toFixed(10)).toString();
+        }
+        return '&nbsp;';
+      }
+      return Number(eval(expression).toFixed(10)).toString();
+    }
+
+    // Invalid expression
+    const foo = force ? 'Invalid expression' : '&nbsp;';
+
+    return preview ? foo : expression.replace(/\*/g, 'x').replace(/\//g, '÷');
   }
 }
 
@@ -361,17 +510,17 @@ window.addEventListener('load', () => {
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', () => {
       const notesCards = ['Notepad', 'To-do List'];
-      const clockCards = ['Alarm', 'Timer'];
+      const clockCards = ['Timer'];
       let cardID = cardList.indexOf(null) + 1; // eslint-disable-line prefer-const
 
       // Limit the user to a maximium number of cards
       if (cardID) {
         if (notesCards.indexOf(buttons[i].getAttribute('name')) + 1) {
-          cardList[cardID - 1] = new Notes(cardID, buttons[i].getAttribute('name'), 0, null);
+          cardList[cardID - 1] = new Notes(cardID, buttons[i].getAttribute('name'), 0);
         } else if (clockCards.indexOf(buttons[i].getAttribute('name')) + 1) {
           cardList[cardID - 1] = new Clock(cardID, buttons[i].getAttribute('name'), 0);
         } else {
-          cardList[cardID - 1] = new Card(cardID, buttons[i].getAttribute('name'), 0);
+          cardList[cardID - 1] = new Misc(cardID, buttons[i].getAttribute('name'), 0);
         }
         cardList[cardID - 1].appendCard();
         
@@ -436,6 +585,11 @@ window.addEventListener('load', () => {
             cardList[cardIndex].startTimer(e.target.closest('form'));
           } else if (e.target.tagName.toLowerCase() === 'i') {
             cardList[cardIndex].controlTimer(e.target.closest('a'));
+          }
+          break;
+        case 'Calculator':
+          if (e.target.tagName.toLowerCase() === 'span') {
+            cardList[cardIndex].calcAction(e.target.innerHTML);
           }
           break;
         default:
