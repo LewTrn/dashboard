@@ -46,7 +46,7 @@ function enableSorting() {
 
 // Remove Animation
 function removeAnimation(article) {
-  article.classList.remove('animated', 'fadeInLeft', 'shake');
+  article.classList.remove('animated', 'fadeInLeft', 'shake', 'rubberBand');
 }
 
 // Limit String Digits
@@ -83,6 +83,21 @@ function toSeconds(time) {
   const seconds = time[0] * 60 * 60 + time[1] * 60 + time[2];
 
   return seconds;
+}
+
+// Copy to clipboard
+function copyToClipboard(el) {
+  // Only copy valid strings
+  if (/^[#rh]/.test(el.value)) {
+    el.select();
+    document.execCommand('copy');
+
+    // Animate clipboard icon
+    const icon = el.parentNode.querySelector('i');
+
+    icon.classList.add('animated', 'rubberBand');
+    setTimeout(removeAnimation, 1000, icon);
+  }
 }
 
 /* ----------------------------------------
@@ -466,7 +481,7 @@ class Misc extends Card {
   // Evaluates string expression
   calcEval() {
     try {
-      eval(this.calcFormat());
+      eval(this.calcFormat()); // eslint-disable-line no-eval
       return true;
     } catch (e) {
       return false;
@@ -481,17 +496,51 @@ class Misc extends Card {
     if (this.calcEval()) {
       if (preview) {
         if (!(expression.trim().split(' ').length < 3 || !/[0-9).]$/.test(expression)) && !(/\s$/.test(this.entry))) {
-          return Number(eval(expression).toFixed(10)).toString();
+          return Number(eval(expression).toFixed(10)).toString();  // eslint-disable-line no-eval
         }
         return '&nbsp;';
       }
-      return Number(eval(expression).toFixed(10)).toString();
+      return Number(eval(expression).toFixed(10)).toString(); // eslint-disable-line no-eval
     }
 
     // Invalid expression
     const foo = force ? 'Invalid expression' : '&nbsp;';
 
     return preview ? foo : expression.replace(/\*/g, 'x').replace(/\//g, '÷');
+  }
+
+  // Convert colour code
+  convertColour() {
+    const input = this.element.querySelector('.colour-code input');
+    const output = this.element.querySelectorAll('.colour-codes input');
+    const box = this.element.querySelector('.box');
+    const code = input.value.trim();
+    let preview = 'rgb(255, 255, 255)'
+
+    this.codes = ['', '', ''];
+
+    // Evaluate colour code
+    if (code) {
+      const rgb = toRGB(code); // eslint-disable-line no-undef
+
+      this.codes = this.codes.fill('Invalid colour code');
+
+      if (rgb) {
+        this.codes[0] = RGBToHex(rgb); // eslint-disable-line no-undef
+        this.codes[1] = rgb;
+        this.codes[2] = RGBToHSL(rgb); // eslint-disable-line no-undef
+
+        // Update preview box
+        preview = rgb;
+      }
+    }
+
+    // Update card
+    for (let i = 0; i < this.codes.length; i++) {
+      output[i].value = this.codes[i];
+    }
+    input.value = code;
+    box.style.background = preview;
   }
 }
 
@@ -527,9 +576,14 @@ window.addEventListener('load', () => {
         // Add custom event listeners
         switch(cardList[cardID - 1].name) {
           case 'To-do List':
-              cardList[cardID - 1].element.addEventListener('submit', function() {
-                cardList[cardID - 1].addToList();
-              });
+            cardList[cardID - 1].element.addEventListener('submit', function() {
+              cardList[cardID - 1].addToList();
+            });
+            break;
+          case 'Colour Converter':
+            cardList[cardID - 1].element.addEventListener('submit', function() {
+              cardList[cardID - 1].convertColour();
+            });
             break;
           default:
             break;
@@ -549,7 +603,7 @@ window.addEventListener('load', () => {
     // Card header actions
     if (e.target.parentNode.classList.contains('card-buttons')) {
       switch (e.target.name) {
-        case 'Color':
+        case 'Colour':
           cardList[cardIndex].cycleColour(card.querySelectorAll('.themed'));
           break;
         case 'Collapse':
@@ -559,7 +613,7 @@ window.addEventListener('load', () => {
           cardList[cardList[cardIndex].closeCard()] = null;
           break;
         default:
-          console.log('Incorrect button name (Accepted names: "Color", "Collapse", "Close")');
+          console.log('Incorrect button name (Accepted names: "Colour", "Collapse", "Close")');
           break;
       }
     } else {
@@ -590,6 +644,13 @@ window.addEventListener('load', () => {
         case 'Calculator':
           if (e.target.tagName.toLowerCase() === 'span') {
             cardList[cardIndex].calcAction(e.target.innerHTML);
+          }
+          break;
+        case 'Colour Converter':
+          if (e.target.name === 'Convert') {
+            cardList[cardIndex].convertColour();
+          } else if (e.target.name === 'Copy') {
+            copyToClipboard(e.target);
           }
           break;
         default:

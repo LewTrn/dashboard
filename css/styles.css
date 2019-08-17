@@ -176,7 +176,8 @@ time {
 }
 .prompt,
 .notepad .buttons,
-.timer .buttons {
+.timer .buttons,
+.colour-codes {
   padding-top: 0.75em;
 }
 .prompt .title,
@@ -185,7 +186,8 @@ time {
 .to-do input,
 .to-do a,
 .timer a,
-.calculator .message {
+.calculator .message,
+.converter > p {
   margin-bottom: 0.5em !important;
 }
 .to-do-item {
@@ -222,6 +224,9 @@ time {
 }
 .calculator .zero {
   width: calc(50.2% - 1px);
+}
+.colour-codes .field .control:first-child a {
+  width: 5em;
 }
 .round-header {
   border-radius: 4px;
