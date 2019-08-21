@@ -21,26 +21,47 @@ function toggleHideAll(parentElements, selectors) {
 
   // Toggle .hide class for buttons and inputs, else toggle hidden attribute
   elements.forEach((el) => {
-    if (el.tagName.toLowerCase() === 'button' || el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'span') {
-      el.classList.toggle('hide');
-    } else {
+    if (el.tagName.toLowerCase() === 'button' || el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'span')
+      el.classList.toggle('is-hidden');
+    else
       el.toggleAttribute('hidden');
-    }
   });
 }
 
-// Enable Card Sorting
+// Enable Sorting
 function enableSorting() {
-  const el = document.querySelector('.cards');
+  const cards = document.querySelector('.cards');
+  const bookmarks = document.querySelector('.bookmarks');
+  const manager = document.querySelector('.bookmark-manager');
 
-  // Sortable system
-  const sortable = Sortable.create(el, { // eslint-disable-line
+  // Enable card sorting
+  const sortCards = Sortable.create(cards, { // eslint-disable-line
     animation: 300,
     emptyInsertThreshold: 30,
     scroll: true,
     scrollSensitivity: 50,
     bubbleScroll: true,
     handle: '.message-header',
+  });
+
+  // Enable bookmark sorting
+  const sortBookmarks = Sortable.create(bookmarks, { // eslint-disable-line
+    animation: 300,
+    emptyInsertThreshold: 30,
+    scroll: true,
+    scrollSensitivity: 50,
+    bubbleScroll: true,
+    handle: 'a',
+  });
+
+  // Enable bookmark manager sorting
+  const sortManager = Sortable.create(manager, { // eslint-disable-line
+    animation: 300,
+    emptyInsertThreshold: 30,
+    scroll: true,
+    scrollSensitivity: 50,
+    bubbleScroll: true,
+    handle: '.manager-buttons a:first-of-type',
   });
 }
 
@@ -49,33 +70,29 @@ function removeAnimation(article) {
   article.classList.remove('animated', 'fadeInLeft', 'shake', 'rubberBand');
 }
 
-// Limit String Digits
-function limitString(el) {
+// Limit String Digits (HTML onInput)
+function limitString(el) { // eslint-disable-line no-unused-vars
   const digits = el.max.length;
 
   // Restrict input length
-  if (el.value.length > digits) {
+  if (el.value.length > digits)
     el.value = el.value.slice(0, digits);
-  }
 }
 
-// Time Change Formatting
-function timeChange(el) {
+// Time Change Formatting (HTML onChange)
+function timeChange(el) { // eslint-disable-line no-unused-vars
   const upper = Number(el.max);
   const lower = Number(el.min);
 
   // Wrap and bound rules
-  if (Number(el.value) === upper || Number(el.value) === 0) {
+  if (Number(el.value) === upper || Number(el.value) === 0)
     el.value = '';
-  }
-  if (Number(el.value) === lower || Number(el.value) > upper - 1) {
+  if (Number(el.value) === lower || Number(el.value) > upper - 1)
     el.value = upper - 1;
-  }
 
   // Pads single digit numbers with leading zero
-  if (el.value.length < el.max.length && el.value !== '') {
+  if (el.value.length < el.max.length && el.value !== '')
     el.value = 0 + el.value;
-  }
 }
 
 // Return Time In Seconds
@@ -109,7 +126,7 @@ class Card {
     this.name = name;
     this.colour = colour;
     this.colourClass = function(i, primary, isText) {
-      let classes = ['is-dark', 'is-primary', 'is-info', 'is-success', 'is-warning', 'is-danger'];
+      let classes = ['is-dark', 'is-primary', 'is-info', 'is-success', 'is-warning'];
       
       // For themes where primary is matched with dark
       classes[0] = primary ? 'is-primary' : classes[0];
@@ -146,7 +163,7 @@ class Card {
   cycleColour(nodeList) {
     let foo = this.colour;
 
-    foo = foo > 4 ? 0 : foo + 1;
+    foo = foo > 3 ? 0 : foo + 1;
     this.element.classList.remove(this.colourClass());
     this.element.classList.add(this.colourClass(foo));
 
@@ -373,9 +390,8 @@ class Misc extends Card {
     let solve = false;
 
     // Remove obsolete decimal
-    if (!/[0-9]|^DEL$|\./.test(key) && /\.$/.test(last)) {
+    if (!/[0-9]|^DEL$|\./.test(key) && /\.$/.test(last))
       this.entry = this.entry.substr(0, this.entry.length - 1);
-    }
 
     // Sorting calculator operations
     switch (key) {
@@ -388,19 +404,18 @@ class Misc extends Card {
         break;
       case '( )': {
         // Regex check for valid operation
-        if (/^0(?!\.)/.test(last)) {
+        if (/^0(?!\.)/.test(last))
           this.entry = `${this.entry.substr(0, this.entry.length - 1)}(`;
-        } else if (/[(\s-]$/.test(this.entry)) {
+        else if (/[(\s-]$/.test(this.entry))
           this.entry += '('
-        } else {
+        else {
           // Closing brackets check
           const toClose = (this.entry.match(/\(/g) || []).length - (this.entry.match(/\)/g) || []).length;
 
-          if (toClose) {
+          if (toClose)
             this.entry += ')';
-          } else if (/[0-9).]$/.test(this.entry)) {
+          else if (/[0-9).]$/.test(this.entry))
             this.entry += ' x (';
-          }
         }        
         break;
       }
@@ -414,41 +429,41 @@ class Misc extends Card {
       case '÷':
         // Regex check for entry first zero
         if (/^0(?!\.)/.test(this.entry)) {
-          if (/^-$/.test(key)) {
+          if (/^-$/.test(key))
             this.entry = `(${key}`
-          }
+
           break;
         }
         // Regex check for valid operation
-        if (/[0-9).]$/.test(this.entry)) {
+        if (/[0-9).]$/.test(this.entry))
           this.entry += ` ${key} `;
-        }
-        if (/\($/.test(this.entry) && /^-$/.test(key)) {
+
+        if (/\($/.test(this.entry) && /^-$/.test(key))
           this.entry += key;
-        }
-        if (/[+-x÷]\s$/.test(this.entry)) {
+
+        if (/[+-x÷]\s$/.test(this.entry))
           this.entry  = `${this.entry.substr(0, this.entry.length - 3)} ${key} `;
-        }
+
         break;
       case '.': 
         // Regex check for valid decimal in last expression
-        if (!/\./.test(last) && /[^)]$/.test(this.entry)) {
+        if (!/\./.test(last) && /[^)]$/.test(this.entry))
           this.entry += key;
-        }
+
         break;
       default:
         // Removes invalid leading zeros
-        if (/^0(?!\.)/.test(last)) {
+        if (/^0(?!\.)/.test(last))
           this.entry = this.entry.substr(0, this.entry.length - 1);
-        }
+
         // Adds bracket multiply for clarity
-        if (/\)$/.test(this.entry)) {
+        if (/\)$/.test(this.entry))
           this.entry += ' x ';
-        }
+
         // Limit string length
-        if (last.length > 12) {
+        if (last.length > 12)
           break;
-        }
+
         this.entry += key;
         break;
     }
@@ -467,9 +482,8 @@ class Misc extends Card {
     let expression = this.entry;
 
     // Remove obsolete operators
-    if (/[+-x÷]\s$/.test(this.entry)) {
+    if (/[+-x÷]\s$/.test(this.entry))
       expression = expression.substr(0, expression.length - 3);
-    }
 
     // Close brackets and format operators
     expression += ')'.repeat(toClose);
@@ -495,9 +509,9 @@ class Misc extends Card {
     // Valid expression
     if (this.calcEval()) {
       if (preview) {
-        if (!(expression.trim().split(' ').length < 3 || !/[0-9).]$/.test(expression)) && !(/\s$/.test(this.entry))) {
+        if (!(expression.trim().split(' ').length < 3 || !/[0-9).]$/.test(expression)) && !(/\s$/.test(this.entry)))
           return Number(eval(expression).toFixed(10)).toString();  // eslint-disable-line no-eval
-        }
+
         return '&nbsp;';
       }
       return Number(eval(expression).toFixed(10)).toString(); // eslint-disable-line no-eval
@@ -536,9 +550,9 @@ class Misc extends Card {
     }
 
     // Update card
-    for (let i = 0; i < this.codes.length; i++) {
+    for (let i = 0; i < this.codes.length; i++)
       output[i].value = this.codes[i];
-    }
+
     input.value = code;
     box.style.background = preview;
   }
@@ -550,7 +564,7 @@ class Misc extends Card {
 // On Load Window Event
 window.addEventListener('load', () => {
   const menu = document.querySelector('.icon-menu');
-  const buttons = menu.querySelectorAll('a:not(.dropdown-trigger)');
+  const buttons = menu.querySelectorAll('a');
   const cards = document.querySelector('.cards');
 
   let cardList = new Array(10).fill(null); // eslint-disable-line prefer-const
@@ -564,13 +578,13 @@ window.addEventListener('load', () => {
 
       // Limit the user to a maximium number of cards
       if (cardID) {
-        if (notesCards.indexOf(buttons[i].getAttribute('name')) + 1) {
+        if (notesCards.indexOf(buttons[i].getAttribute('name')) + 1)
           cardList[cardID - 1] = new Notes(cardID, buttons[i].getAttribute('name'), 0);
-        } else if (clockCards.indexOf(buttons[i].getAttribute('name')) + 1) {
+        else if (clockCards.indexOf(buttons[i].getAttribute('name')) + 1)
           cardList[cardID - 1] = new Clock(cardID, buttons[i].getAttribute('name'), 0);
-        } else {
+        else
           cardList[cardID - 1] = new Misc(cardID, buttons[i].getAttribute('name'), 0);
-        }
+
         cardList[cardID - 1].appendCard();
         
         // Add custom event listeners
@@ -578,11 +592,6 @@ window.addEventListener('load', () => {
           case 'To-do List':
             cardList[cardID - 1].element.addEventListener('submit', function() {
               cardList[cardID - 1].addToList();
-            });
-            break;
-          case 'Colour Converter':
-            cardList[cardID - 1].element.addEventListener('submit', function() {
-              cardList[cardID - 1].convertColour();
             });
             break;
           default:
@@ -621,37 +630,32 @@ window.addEventListener('load', () => {
       // Card functionality
       switch (cardList[cardIndex].name) {
         case 'Notepad':
-          if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i') {
+          if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i')
             cardList[cardIndex].saveNote(e.target.closest('form'));
-          }
           break;
         case 'To-do List':
-          if (e.target.name === 'Add') {
+          if (e.target.name === 'Add')
             cardList[cardIndex].addToList();
-          } else if (e.target.name === 'Remove') {
+          else if (e.target.name === 'Remove')
             cardList[cardIndex].removeCheckedItems();
-          } else if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i') {
+          else if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i')
             cardList[cardIndex].saveList(e.target.closest('form'));
-          }
           break;
         case 'Timer':
-          if (e.target.name === 'Start') {
+          if (e.target.name === 'Start')
             cardList[cardIndex].startTimer(e.target.closest('form'));
-          } else if (e.target.tagName.toLowerCase() === 'i') {
+          else if (e.target.tagName.toLowerCase() === 'i')
             cardList[cardIndex].controlTimer(e.target.closest('a'));
-          }
           break;
         case 'Calculator':
-          if (e.target.tagName.toLowerCase() === 'span') {
+          if (e.target.tagName.toLowerCase() === 'span')
             cardList[cardIndex].calcAction(e.target.innerHTML);
-          }
           break;
         case 'Colour Converter':
-          if (e.target.name === 'Convert') {
+          if (e.target.name === 'Convert')
             cardList[cardIndex].convertColour();
-          } else if (e.target.name === 'Copy') {
+          else if (e.target.name === 'Copy')
             copyToClipboard(e.target);
-          }
           break;
         default:
           console.log('No click event assigned')

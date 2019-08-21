@@ -21,6 +21,10 @@ $light: $palette-light;
 $primary: $palette-primary;
 $grey: $palette-grey;
 $dark: $palette-dark;
+$tabs-link-active-color: $palette-primary;
+$tabs-link-active-border-bottom-color: $palette-primary;
+$tabs-link-hover-color: $palette-primary;
+$tabs-link-hover-border-bottom-color: $palette-primary;
 
 // Type sizing modifiers
 $size-1: 5rem;
@@ -52,16 +56,11 @@ $dropdown-content-padding-bottom: 0;
 // Bulma Components
 @import "../node_modules/bulma/sass/utilities/_all.sass";
 @import "../node_modules/bulma/sass/base/_all.sass";
+@import "../node_modules/bulma/sass/components/_all.sass";
 @import "../node_modules/bulma/sass/elements/_all.sass";
-
-@import "../node_modules/bulma/sass/form/shared.sass";
-@import "../node_modules/bulma/sass/form/input-textarea.sass";
-@import "../node_modules/bulma/sass/form/tools.sass";
+@import "../node_modules/bulma/sass/form/_all.sass";
 
 @import "../node_modules/bulma/sass/grid/columns.sass";
-
-@import "../node_modules/bulma/sass/components/card.sass";
-@import "../node_modules/bulma/sass/components/message.sass";
 
 // Bulma Extensions
 @import "../node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass";

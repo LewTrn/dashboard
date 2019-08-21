@@ -87,7 +87,7 @@
           </form>
 
           <div class="weather is-size-6">
-            <p>Weather Currently Unavailable</p>
+            <a class="has-text-white">Weather Currently Unavailable</a>
           </div>
 
           <div class="image-location is-size-6">
@@ -106,21 +106,182 @@
         </div>
       </section>
 
+      <!-- Right-side Navigation Sidebar-->
       <nav class="sidebar has-background-grey column" role="complementary">
         <div class="container has-text-centered rows space-between">
-          <a class="icon is-white has-text-primary button is-dark remove-radius row" role="button" tabindex="0" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></a>
+          <a class="bookmark icon is-white has-text-primary button is-dark is-radiusless row" role="button" tabindex="0" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></a>
 
           <div class="add-overflow row">
-            <div class="bookmarks">
-              <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="Dashboard">D</a>
-              <a class="plus icon is-white has-text-primary" role="button" tabindex="0" aria-label="Add bookmark"></a>
-            </div>
+            <div class="bookmarks"></div>
+            <a class="add-bookmark plus icon is-white has-text-primary" role="button" tabindex="0" aria-label="Add bookmark"></a>
           </div>
 
-          <a class="icon is-white has-text-primary button is-dark remove-radius row" role="button" tabindex="0" aria-label="Settings"><i class="fas fa-cog" aria-hidden="true"></i></a>
+          <a class="settings icon is-white has-text-primary button is-dark is-radiusless row" role="button" tabindex="0" aria-label="Settings"><i class="fas fa-cog" aria-hidden="true"></i></a>
         </div>
       </nav>
+
+      <!-- Settings Modal -->
+      <div id="settings" class="modal animated fadeIn faster">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title title is-size-6">Settings</p>
+            <button class="delete is-large close-modal" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="tabs is-small is-centered title has-text-primary">
+              <ul>
+                <li><a>Getting Started</a></li>
+                <li><a>Appearance</a></li>
+                <li><a>Bookmarks</a></li>
+                <li><a>Weather</a></li>
+              </ul>
+            </div>
+            <div class="tab-content is-size-7">
+              <div data-content="Getting Started">
+                <form class="personal-name field" onsubmit="return false">
+                  <article class="message is-primary is-size-7">
+                    <div class="message-body">
+                      <p>Enter your name to personalise your Dashpoint experience</a>.</p>
+                    </div>
+                  </article>
+                  <div class="colour-code field has-addons">
+                    <div class="control">
+                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" />
+                    </div>
+                  </div>
+                </form>
+                <hr />
+                <form class="search-provider radio-group field">
+                  <label class="title is-size-7">Search Provider</label>
+                  <div class="checkbox-item field">
+                    <input id="googleRadio" class="is-checkradio is-circle is-small" type="radio" name="Search Provider" value="Google" checked/>
+                    <label for="googleRadio">Google</label>
+                  </div>
+                  <div class="checkbox-item field">
+                    <input id="bingRadio" class="is-checkradio is-circle is-small" type="radio" name="Search Provider" value="Bing" />
+                    <label for="bingRadio">Bing</label>
+                  </div>
+                  <div class="checkbox-item field">
+                    <input id="duckRadio" class="is-checkradio is-circle is-small" type="radio" name="Search Provider" value="DuckDuckGo" />
+                    <label for="duckRadio">DuckDuckGo</label>
+                  </div>
+                </form>
+              </div>
+
+              <div data-content="Appearance">
+                <p>Unsplash API</p>
+              </div>
+  
+              <div data-content="Bookmarks">
+                <nav class="panel is-size-7">
+                  <div class="bookmark-manager">
+                    <p class="panel-block is-active">
+                      <span class="panel-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
+                      Example 1
+                      <span class="manager-buttons">
+                        <a class="has-text-primary" name="Collapse" aria-label="Collapse"><i class="fas fa-sort fa-s" aria-hidden="true"></i></a>
+                        <a class="has-text-primary" name="Close" aria-label="Close"><i class="fas fa-times fa-s" aria-hidden="true"></i></a>
+                      </span>
+                    </p>
+                    <p class="panel-block is-active">
+                      <span class="panel-icon has-text-weight-semibold">E</span>
+                      Example
+                      <span class="manager-buttons">
+                        <a class="has-text-primary" name="Collapse" aria-label="Collapse"><i class="fas fa-sort fa-s" aria-hidden="true"></i></a>
+                        <a class="has-text-primary" name="Close" aria-label="Close"><i class="fas fa-times fa-s" aria-hidden="true"></i></a>
+                      </span>
+                    </p>
+                  </div>
+                  <a class="panel-block has-text-primary has-background-white-ter">
+                    <span class="panel-icon has-text-primary"><i class="fas fa-plus" aria-hidden="true"></i></span>
+                    Add new bookmark
+                  </a>
+                </nav>
+              </div>
+  
+              <div data-content="Weather">
+                <p>Location</p>
+  
+                <hr>
+  
+                <form class="temp-units radio-group field">
+                  <label class="title is-size-7">Temperature Units</label>
+                  <div class="checkbox-item field">
+                    <input id="celsiusRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" checked="checked" />
+                    <label for="celsiusRadio">Celsius, &deg;C</label>
+                  </div>
+                  <div class="checkbox-item field">
+                    <input id="fahrenheitRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" />
+                    <label for="fahrenheitRadio">Fahrenheit, &deg;F</label>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-foot"></footer>
+        </div>
+      </div>
+
+      <!-- Add Bookmark Modal -->
+      <div id="addBookmark" class="modal animated fadeIn faster">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title title is-size-6">Add New Bookmark</p>
+            <button class="delete is-large close-modal" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="is-size-7">
+              <form data-content="Add New Bookmark" onsubmit="return false">
+                <div class="field">
+                  <label class="title is-size-7">Name</label>
+                  <div class="control is-short">
+                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. Example" required />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="title is-size-7">URL</label>
+                  <div class="control">
+                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. https://www.example.com" required />
+                  </div>
+                  <p class="help is-danger is-hidden">Invalid URL</p>
+                </div>
+
+                <div class="field">
+                  <label class="title is-size-7">Icon (Optional)</label>
+                  <div class="field has-addons">
+                    <p class="control is-short">
+                      <input class="input is-size-7 is-primary" type="text" placeholder="e.g. star" />
+                    </p>
+                    <p class="control">
+                      <span class="select is-size-7 is-primary">
+                        <select>
+                          <option value="fas">Solid</option>
+                          <option value="far">Regular</option>
+                          <option value="fab">Brands</option>
+                        </select>
+                      </span>
+                    </p>
+                  </div>
+                </div>
+
+                <article class="message is-primary is-size-7">
+                  <div class="message-body">
+                    <p>To add a custom Font Awesome icon, enter the icon name and icon type found at <a class="has-text-primary" href="https://fontawesome.com/cheatsheet/free/solid" target="_blank">Font Awesome's Free's Cheatsheet</a>.</p>
+                  </div>
+                </article>
+
+                <div class="buttons is-centered">
+                  <button class="themed button is-outlined is-primary is-rounded is-small" name="Add" aria-label="Add bookmark" type="submit">Add Bookmark</button>
+                </div>
+              </form>
+            </div>
+          </section>
+          <footer class="modal-card-foot"></footer>
+        </div>
+      </div>
     </main>
 
     <!-- Template HTML Blocks-->
@@ -129,7 +290,7 @@
       <article id="cardTemplate" class="message is-small is-dark animated fadeInLeft" data-colour="0">
         <div class="message-header grab-cursor">
           <p>&nbsp;</p>
-          <div class="card-buttons test">
+          <div class="card-buttons">
             <button class="button is-light is-rounded" name="Colour" aria-label="Colour"><i class="fas fa-tint fa-xs" aria-hidden="true"></i></button>
             <button class="button is-light is-rounded" name="Collapse" aria-label="Collapse"><i class="fas fa-angle-up fa-xs" aria-hidden="true"></i></button>
             <button class="button is-light is-rounded" name="Close" aria-label="Close"><i class="fas fa-times fa-xs" aria-hidden="true"></i></button>
@@ -166,7 +327,7 @@
               <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item" />
             </div>
             <div class="control">
-              <button class="themed button is-size-7 is-primary" name="Add" aria-label="Add item" type="button">Add</button>
+              <button class="themed button is-size-7 is-primary" name="Add" aria-label="Add item" type="submit">Add</button>
             </div>
           </div>
         </div>
@@ -179,9 +340,9 @@
       </form>
 
       <!-- Checkbox -->
-      <div id="checkboxTemplate" class="to-do-item field columns">
-        <input class="themed is-checkradio is-small column" id="exampleCheckbox" type="checkbox" />
-        <label for="exampleCheckbox column"></label>
+      <div id="checkboxTemplate" class="checkbox-item field columns">
+        <input id="exampleCheckbox" class="themed is-checkradio is-small column" type="checkbox" />
+        <label for="exampleCheckbox"></label>
       </div>
 
       <!-- Timer Template -->
@@ -252,20 +413,20 @@
       <form id="colourTemplate" class="converter has-text-left" onsubmit="return false">
         <div class="box"></div>
 
-        <p>Enter colour code:</p>
+        <label>Enter colour code:</label>
 
         <div class="colour-code field has-addons">
           <div class="control is-expanded">
-            <input class="themed input is-size-7 is-primary" type="text" placeholder="Hex, RGB or HSL" />
+            <input class="themed input is-size-7 is-primary" type="text" placeholder="Hex, RGB or HSL" required />
           </div>
           <div class="control">
-            <button class="themed button is-size-7 is-primary" name="Convert" aria-label="Convert" type="button">Convert</button>
+            <button class="themed button is-size-7 is-primary" name="Convert" aria-label="Convert" type="submit">Convert</button>
           </div>
         </div>
         <div class="colour-codes">
           <div class="field has-addons">
             <p class="control">
-              <a class="button themed has-text-primary is-static is-size-7">Hex</a>
+              <a class="button themed has-text-primary is-static is-size-7 ">Hex</a>
             </p>
             <p class="control is-expanded has-icons-right">
               <input class="input themed is-size-7 is-primary" name="Copy" aria-label="Copy" type="text" placeholder="#ffffff" form="none" readonly />
@@ -292,6 +453,10 @@
           </div>
         </div>
       </form>
+
+      <!-- Bookmark Icon Templates -->
+      <!-- <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label=""><i class=""></i></a> -->
+      <a id="bookmarkTemplate" class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="" href="" target="_blank"></a>
     </div>
   </body>
 </html>

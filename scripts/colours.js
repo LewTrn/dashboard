@@ -2,8 +2,7 @@
     Colour Conversion
 ---------------------------------------- */
 // Source: https://css-tricks.com/converting-color-spaces-in-javascript/
-// eslint-disable prefer-template
-
+/* eslint-disable */
   
 // Convert RGB to Hex
 function RGBToHex(rgb) {

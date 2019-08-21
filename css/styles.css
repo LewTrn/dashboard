@@ -11,6 +11,9 @@ input {
 button > * {
   pointer-events: none;
 }
+hr {
+  margin: 1rem 0;
+}
 .bg-img {
   position: absolute;
   top: 0;
@@ -40,11 +43,15 @@ button > * {
 .container {
   height: 100vh;
 }
+.checkbox-item {
+  margin: 0 0.5em 0;
+}
+.checkbox-item label {
+  padding-top: 0.1em !important;
+  line-height: 1.4;
+}
 .grab-cursor:hover {
   cursor: grab;
-}
-.hide {
-  display: none;
 }
 .is-white {
   color: rgba(255, 255, 255, 0.85) !important;
@@ -59,9 +66,6 @@ button > * {
 .padding-h {
   padding-left: 1em;
   padding-right: 1em;
-}
-.remove-radius {
-  border-radius: 0;
 }
 .rows {
   display: flex;
@@ -151,13 +155,6 @@ time {
   margin-bottom: 0;
   width: 100%;
 }
-.dropdown-item {
-  padding-right: 1rem !important;
-}
-.dropdown-center {
-  left: 50%;
-  transform: translate(-50%, 0);
-}
 
 /* ----------------------------------------
     Card Styles
@@ -186,16 +183,8 @@ time {
 .to-do input,
 .to-do a,
 .timer a,
-.calculator .message,
-.converter > p {
+.calculator .message {
   margin-bottom: 0.5em !important;
-}
-.to-do-item {
-  margin: 0 0.5em 0;
-}
-.to-do-item label {
-  padding-top: 0 !important;
-  line-height: 1.4;
 }
 .time-input {
   max-width: 35vw;
@@ -252,13 +241,58 @@ time {
 .sidebar > .container {
   width: 2.5em;
 }
+.sidebar a i {
+  pointer-events: none;
+}
 .icon.row {
   width: inherit;
 }
 .plus {
-  margin-top: 0 !important;
+  margin-top: -0.25em !important;
   font-size: 1.25rem;
 }
 .plus:after {
   content: "+";
+}
+
+/* ----------------------------------------
+    Modal Styles
+---------------------------------------- */
+.modal-card-title.title {
+  margin-bottom: 0;
+}
+.modal-card-body > div {
+  width: 95%;
+  margin: auto;
+}
+.modal-card-foot {
+  justify-content: flex-end;
+}
+.radio-group .field {
+  margin-bottom: 0.5em !important;
+}
+.radio-group > label {
+  display: block;
+  margin-bottom: 1em !important;
+}
+.panel {
+  max-height: 50vh;
+  overflow: auto;
+  word-break: break-all;
+}
+.manager-buttons {
+  margin-left: auto;
+}
+.manager-buttons a {
+  margin-left: 0.5em;
+}
+#addBookmark .field {
+  margin-bottom: 1em !important;
+}
+#addBookmark label {
+  display: block;
+  margin-bottom: 0.5em !important;
+}
+.is-short {
+  width: 40%;
 }
