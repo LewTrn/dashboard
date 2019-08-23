@@ -34,6 +34,17 @@ function enableSorting() {
   const bookmarks = document.querySelector('.bookmarks');
   const manager = document.querySelector('.bookmark-manager');
 
+  // Sort array order
+  function sortArray(key, oldPos, newPos) {
+    const item = JSON.parse(localStorage.getItem(key));
+    const selected = item.slice(oldPos, oldPos + 1)[0];
+
+    item.splice(oldPos, 1);
+    item.splice(newPos, 0, selected);
+
+    localStorage.setItem(key, JSON.stringify(item));
+  }
+
   // Enable card sorting
   const sortCards = Sortable.create(cards, { // eslint-disable-line
     animation: 300,
@@ -52,6 +63,11 @@ function enableSorting() {
     scrollSensitivity: 50,
     bubbleScroll: true,
     handle: 'a',
+
+    onEnd(e) {
+      sortArray('bookmarks', e.oldIndex, e.newIndex);
+      updateBookmark();
+    }
   });
 
   // Enable bookmark manager sorting
@@ -62,6 +78,11 @@ function enableSorting() {
     scrollSensitivity: 50,
     bubbleScroll: true,
     handle: '.manager-buttons a:first-of-type',
+
+    onEnd(e) {
+      sortArray('bookmarks', e.oldIndex, e.newIndex);
+      updateBookmark();
+    }
   });
 }
 
@@ -117,6 +138,14 @@ function copyToClipboard(el) {
   }
 }
 
+// Update Card List
+function updateCardList(object, i) {
+  const cardList = JSON.parse(localStorage.getItem('cardList'));
+  
+  cardList[i] = object;
+  localStorage.setItem('cardList', JSON.stringify(cardList));
+}
+
 /* ----------------------------------------
     Card Class
 ---------------------------------------- */
@@ -125,6 +154,7 @@ class Card {
     this.ID = ID;
     this.name = name;
     this.colour = colour;
+    this.collapse = false;
     this.colourClass = function(i, primary, isText) {
       let classes = ['is-dark', 'is-primary', 'is-info', 'is-success', 'is-warning'];
       
@@ -178,7 +208,7 @@ class Card {
 
     this.colour = foo;
     this.element.setAttribute('data-colour', this.colour);
-  }
+}
 
   // Collapses card by hiding message
   collapseCard() {
@@ -206,9 +236,17 @@ class Notes extends Card {
   }
 
   // Save and update notepad
-  saveNote(form) {
-    const title = this.element.querySelector('input').value.trim();
-    const note = this.element.querySelector('textarea').value.trim();
+  saveNote(form, update) {
+    const input = this.element.querySelector('input');
+    const textarea = this.element.querySelector('textarea');
+
+    if (update) {
+      input.setAttribute('value', this.title);
+      textarea.innerText = this.content;
+    }
+
+    const title = input.value.trim();
+    const note = textarea.value.trim();
 
     if (title || note) {
       this.title = title || 'Notepad';
@@ -227,12 +265,14 @@ class Notes extends Card {
   }
 
   // Add to to-do list
-  addToList() {
+  addToList(update) {
     const item = this.element.querySelector('.to-do-add input');
-    const message = item.value.trim();
+    const message = update || item.value.trim();
 
     if (message) {
-      this.content.push(message);
+      if (!update)
+        this.content.push(message);
+
       item.value = '';
 
       // Clone and modify checkbox template
@@ -261,13 +301,18 @@ class Notes extends Card {
     for (let i = 0; i < checkedCount; i++) {
       this.content.splice(this.isChecked[0] - i, 1);
       this.isChecked.splice(0, 1);
-      this.element.querySelector('.to-do-item .strike').parentNode.remove();
+      this.element.querySelector('.checkbox-item .strike').parentNode.remove();
     }
   }
 
   // Save and update to-do list
-  saveList(form) {
-    const title = this.element.querySelector('input').value.trim();
+  saveList(form, update) {
+    const input = this.element.querySelector('input');
+
+    if (update)
+      input.setAttribute('value', this.title);
+
+    const title = input.value.trim();
 
     if (title || this.content[0]) {
       this.title = title || 'To-do List';
@@ -353,11 +398,12 @@ class Clock extends Card {
           this.timeout = true;
         }
       } else {
-        const alert = new Audio('../sounds/timer-beep.mp3');
+        const alert = new Audio('https://d1490khl9dq1ow.cloudfront.net/sfx/mp3preview/alarm-clock-beep-1_zJgIn-Vd.mp3');
 
         // Alert animation and sound
         setTimeout(removeAnimation, 1000, this.element);
         this.element.classList.add('animated', 'shake');
+        alert.play();
         alert.play();
 
         this.resetTimer();
@@ -569,6 +615,70 @@ window.addEventListener('load', () => {
 
   let cardList = new Array(10).fill(null); // eslint-disable-line prefer-const
 
+  // Check local storage card
+  if (localStorage.getItem('cardList') === null) {
+    localStorage.setItem('cardList', JSON.stringify(cardList));
+  } else {
+    const storedCards = JSON.parse(localStorage.getItem('cardList'));
+
+    for (let i = 0; i < cardList.length; i++) {
+      if (storedCards[i] !== null) {
+        // Assign saved card objects
+        switch(storedCards[i].name) {
+          case 'Notepad':
+          case 'To-do List':
+            cardList[i] = new Notes();
+            break;
+          case 'Timer':
+            cardList[i] = new Clock();
+            break;
+          case 'Calculator':
+          case 'Colour Converter':
+            cardList[i] = new Misc();
+            break;
+          default:
+            cardList[i] = new Card();
+        }
+        Object.assign(cardList[i], storedCards[i]);
+
+        // Update card IDs
+        cardList[i].ID = i + 1;
+        cardList[i].appendCard();
+
+        // Update card states
+        if (cardList[i].collapse)
+          cardList[i].collapseCard();
+
+        for (let j = 0; j < 5; j++)
+          cardList[i].cycleColour(cardList[i].element.querySelectorAll('.themed'));
+
+        // Update card content
+        if (cardList[i].name === 'Notepad')
+          cardList[i].saveNote(cardList[i].element.querySelector('form'), true);
+        if (cardList[i].name === 'To-do List') {
+          const items = cardList[i].content;
+
+          // Populate items
+          items.forEach((item) => {
+            cardList[i].addToList(item);
+          });
+
+          cardList[i].saveList(cardList[i].element.querySelector('form'), true);
+
+          // Strike items
+          const checkboxes = cardList[i].element.querySelectorAll('.checkbox-item');
+          
+          cardList[i].isChecked.forEach((index) => {
+            checkboxes[index].querySelector('input').setAttribute('checked', true);
+            checkboxes[index].querySelector('label').classList.toggle('strike');
+          });
+        }
+
+        updateCardList(cardList[i], i);
+      }
+    }
+  }
+
   //  Menu bar event listeners
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener('click', () => {
@@ -586,6 +696,7 @@ window.addEventListener('load', () => {
           cardList[cardID - 1] = new Misc(cardID, buttons[i].getAttribute('name'), 0);
 
         cardList[cardID - 1].appendCard();
+        updateCardList(cardList[cardID - 1], [cardID - 1]);
         
         // Add custom event listeners
         switch(cardList[cardID - 1].name) {
@@ -617,20 +728,23 @@ window.addEventListener('load', () => {
           break;
         case 'Collapse':
           cardList[cardIndex].collapseCard();
+          cardList[cardIndex].collapse = !cardList[cardIndex].collapse;
           break;
-        case 'Close':
+      case 'Close':
           cardList[cardList[cardIndex].closeCard()] = null;
           break;
         default:
           console.log('Incorrect button name (Accepted names: "Colour", "Collapse", "Close")');
           break;
       }
+      
+      updateCardList(cardList[cardIndex], cardIndex);
     } else {
 
       // Card functionality
       switch (cardList[cardIndex].name) {
         case 'Notepad':
-          if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i')
+          if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'a')
             cardList[cardIndex].saveNote(e.target.closest('form'));
           break;
         case 'To-do List':
@@ -638,13 +752,13 @@ window.addEventListener('load', () => {
             cardList[cardIndex].addToList();
           else if (e.target.name === 'Remove')
             cardList[cardIndex].removeCheckedItems();
-          else if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'i')
+          else if (e.target.name === 'Save' || e.target.tagName.toLowerCase() === 'a')
             cardList[cardIndex].saveList(e.target.closest('form'));
           break;
         case 'Timer':
           if (e.target.name === 'Start')
             cardList[cardIndex].startTimer(e.target.closest('form'));
-          else if (e.target.tagName.toLowerCase() === 'i')
+          else if (e.target.tagName.toLowerCase() === 'a')
             cardList[cardIndex].controlTimer(e.target.closest('a'));
           break;
         case 'Calculator':
@@ -661,6 +775,8 @@ window.addEventListener('load', () => {
           console.log('No click event assigned')
           break;
       }
+
+      updateCardList(cardList[cardIndex], cardIndex);
     }
   });
 
@@ -683,6 +799,8 @@ window.addEventListener('load', () => {
       } else {
         cardList[cardIndex].isChecked.splice(cardList[cardIndex].isChecked.indexOf(i), 1);
       }
+
+      updateCardList(cardList[cardIndex], cardIndex);
     }
   });
 

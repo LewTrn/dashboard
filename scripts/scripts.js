@@ -1,13 +1,15 @@
 /* ----------------------------------------
-    Settings Class
+    System Classes
 ---------------------------------------- */
+// Settings Class
 class Settings {
   constructor() {
     this.name = '';
     this.provider = 'Google';
+    this.units = 'C';
   }
 
-  // Search Bar
+  // Search bar
   webSearch() {
     const input = document.querySelector('.search').querySelector('input');
     const terms = input.value.trim();
@@ -21,6 +23,59 @@ class Settings {
       input.blur();
     }
     input.value = '';
+  }
+
+  // Update local storage settings
+  update() {
+    localStorage.setItem('settings', JSON.stringify(this));
+  }
+
+  // Update name values
+  updateName(name) {
+    const input = document.querySelector('.personal-name input');
+
+    if (name) {
+      this.name = name;
+      this.update();
+      input.setAttribute('value', name);
+    }
+  }
+
+  // Update provider value
+  updateProvider() {
+    const input = document.querySelector('.search input');
+
+    input.setAttribute('placeholder', `Search ${this.provider}`);
+  }
+
+  updateRadio(form, key, target) {
+    const inputs = form.querySelectorAll('input');
+    let entry = this[key];
+
+    // Update settings
+    if (target) {
+      entry = target.value;
+      this[key] = target.value;
+      this.update();
+    }
+
+    // Update checked attribute
+    inputs.forEach((radio) => {
+      if (radio.value === entry)
+        radio.setAttribute('checked', true);
+      else 
+        radio.removeAttribute('checked');
+    });
+  }
+}
+
+// Bookmarks Class
+class Bookmarks {
+  constructor(name, url, icon, type) {
+    this.name = name;
+    this.url = url;
+    this.icon = icon;
+    this.type = type;
   }
 }
 
@@ -151,8 +206,9 @@ function updateWelcome() {
   else
     welcome.innerText = 'Good evening';
 
-  if (name.value)
+  if (name.value) {
     welcome.innerText += `, ${name.value}`;
+  }
 
   setTimeout(updateWelcome, 1000);
 }
@@ -160,6 +216,81 @@ function updateWelcome() {
 /* ----------------------------------------
     Sidebar Scripts
 ---------------------------------------- */
+// Create Bookmark
+function createBookmark(bookmark) {
+  const bookmarks = document.querySelector('.bookmarks');
+  const template = document.querySelector('#bookmarkTemplate').cloneNode(true);
+
+  // Format bookmark icon
+  template.removeAttribute('id');
+  template.setAttribute('aria-label', bookmark.name);
+  template.setAttribute('href', bookmark.url);
+
+  // Icon check
+  if (bookmark.icon.length) {
+    const i = document.createElement('i');
+
+    i.classList.add(bookmark.type, `fa-${bookmark.icon}`);
+    i.setAttribute('aria-hidden', 'true');
+    template.appendChild(i);
+    bookmarks.insertBefore(template, bookmarks.querySelector('.add-bookmark'));
+
+    // Apply icon for valid icon name
+    const icons = bookmarks.querySelectorAll('a i');
+
+    if (icons[icons.length-1].offsetHeight)
+      return bookmark.icon;
+  }
+  template.innerText = bookmark.name.charAt(0).toUpperCase();
+  bookmarks.insertBefore(template, bookmarks.querySelector('.add-bookmark'));
+
+  return '';
+}
+
+// Create Bookmark Manager Items
+function createManager(bookmark) {
+  const manager = document.querySelector('.bookmark-manager');
+  const template = document.querySelector('#managerTemplate').cloneNode(true);
+
+  // Format bookmark icon
+  template.removeAttribute('id');
+
+   // Icon check
+   if (bookmark.icon.length) {
+    const i = document.createElement('i');
+
+    i.classList.add(bookmark.type, `fa-${bookmark.icon}`);
+    i.setAttribute('aria-hidden', 'true');
+    template.querySelector('.panel-icon').appendChild(i);
+  } else {
+    template.querySelector('.panel-icon').innerText = bookmark.name.charAt(0).toUpperCase();
+  }
+
+  template.querySelector('.panel-name').innerText = bookmark.name;
+  manager.insertBefore(template, manager.querySelector('.manager-footer'));
+}
+
+// Update Bookmarks In Local Storage
+function updateBookmark(object) {
+  const item = localStorage.getItem('bookmarks');
+  const bookmarks = JSON.parse(item);
+
+  if (object) {
+    bookmarks.push(object);
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+  } else if (item === null) {
+    localStorage.setItem('bookmarks', JSON.stringify([]));
+  } else {
+    document.querySelector('.bookmarks').innerHTML = '';
+    document.querySelector('.bookmark-manager').innerHTML = '';
+
+    bookmarks.forEach((bookmark) => {
+      createBookmark(bookmark);
+      createManager(bookmark);
+    });
+  }
+}
+
 // Add New Bookmark
 function addBookmark() {
   const modal = document.querySelector('#addBookmark');
@@ -187,35 +318,26 @@ function addBookmark() {
     inputs[1].classList.add('is-danger');
     modal.querySelector('.help').classList.remove('is-hidden');
   } else {
-    const bookmarks = document.querySelector('.bookmarks');
-    const template = document.querySelector('#bookmarkTemplate').cloneNode(true);
-
-    // Format bookmark icon
-    template.removeAttribute('id');
-    template.setAttribute('aria-label', name);
-    template.setAttribute('href', url);
+    const bookmark = new Bookmarks(name, url, icon, type);
 
     // Reset form
     modal.querySelector('form').reset();
     resetAlerts(modal.querySelector('form'));
     toggleModal('addBookmark');
 
-    // Font Awesome input check
-    if (icon.length) {
-      const i = document.createElement('i');
-      const icons = bookmarks.querySelectorAll('a i');
-
-      i.classList.add(type, `fa-${icon}`);
-      template.appendChild(i);
-      bookmarks.insertBefore(template, bookmarks.querySelector('.add-bookmark'));
-
-      // Apply default icon for invalid icon
-      if (icons[icons.length-1].offsetHeight)
-        return;
-    }
-    template.innerText = name.charAt(0).toUpperCase();
-    bookmarks.insertBefore(template, bookmarks.querySelector('.add-bookmark'));
+    bookmark.icon = createBookmark(bookmark);
+    createManager(bookmark);
+    updateBookmark(bookmark);
   }
+}
+
+// Remove Bookmark
+function removeBookmark(i) {
+  const item = JSON.parse(localStorage.getItem('bookmarks'));
+
+  item.splice(i, 1);
+  localStorage.setItem('bookmarks', JSON.stringify(item));
+  updateBookmark();
 }
 
 /* ----------------------------------------
@@ -223,7 +345,25 @@ function addBookmark() {
 ---------------------------------------- */
 // On Load Window Event
 window.addEventListener('load', () => {
+  const units = document.querySelector('.temp-units');
+  const provider = document.querySelector('.search-provider');
+  
   const settings = new Settings();
+
+  // Check local storage settings
+  if (localStorage.getItem('settings') === null) {
+    settings.update();
+  } else {
+    Object.assign(settings, JSON.parse(localStorage.getItem('settings')));
+    
+    settings.updateName(settings.name);
+    settings.updateRadio(provider, 'provider');
+    settings.updateRadio(units, 'units');
+    settings.updateProvider();
+  }
+
+  // Check local storage bookmarks
+  updateBookmark();
 
   // Sidebar interactions
   const sidebar = document.querySelector('.sidebar');
@@ -267,44 +407,38 @@ window.addEventListener('load', () => {
     }
 
     // Settting menu
-    // Radio buttons function
-    function updateRadio(form, e) {
-      if (e.target.tagName.toLowerCase() === 'input') {
-        // Update checked attribute
-        form.querySelectorAll('input').forEach((radio) => {
-          radio.removeAttribute('checked');
-        });
-        e.target.setAttribute('checked', true);
-        
-        settings.provider = e.target.value;
-        e.stopImmediatePropagation();
-      }
-    }
-
     // Getting started
     const personal = document.querySelector('.personal-name');
-    const provider = document.querySelector('.search-provider');
 
     // Dynamic input update
     personal.addEventListener('input', e => {
-      const input = personal.querySelector('input');
-      const name = input.value.trim();
+      const name = personal.querySelector('input').value.trim();
 
       if (name !== settings.name) {
-        settings.name = name;
-        input.setAttribute('value', name)
+        settings.updateName(name)
       }
       e.stopImmediatePropagation();
     });
 
-    provider.addEventListener('click', e => {updateRadio(provider, e)});
+    provider.addEventListener('click', e => {
+      settings.updateRadio(provider, 'provider', e.target);
+      settings.updateProvider();
+      e.stopImmediatePropagation();
+    });
 
     // Bookmarks
-    const bookmarks = document.querySelector('.bookmark-manager').parentNode;
+    const manager = document.querySelector('.bookmark-manager').parentNode;
 
-    bookmarks.addEventListener('click', e => {
+    manager.addEventListener('click', e => {
+      // Delete bookmark
+      if (e.target.name === 'Close') {
+        const i = Array.prototype.indexOf.call(e.target.parentElement.parentElement.parentElement.children, e.target.parentElement.parentElement);
+
+        removeBookmark(i);
+        e.stopImmediatePropagation();
+      }
       // Open add new bookmark modal
-      if (e.target.classList.contains('has-background-white-ter')) {
+      if (e.target.classList.contains('manager-footer')) {
         toggleModal('settings');
         toggleModal('addBookmark');
         e.stopImmediatePropagation();
@@ -312,9 +446,9 @@ window.addEventListener('load', () => {
     });
 
     // Weather
-    const units = document.querySelector('.temp-units');
-
-    units.addEventListener('click', e => {updateRadio(units, e)});
+    units.addEventListener('click', e => {
+      settings.updateRadio(units, 'units', e.target);
+    });
   });
 
   // Initialising dashboard

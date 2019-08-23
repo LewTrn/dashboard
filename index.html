@@ -83,7 +83,7 @@
         <div class="container">
           <form class="search" onsubmit="return false">
             <a class="icon is-small is-left has-text-light padding-h"><i class="fas fa-search" aria-hidden="true"></i></a>
-            <input class="is-size-6 has-text-light" type="text" placeholder="Search" tabindex="0" />
+            <input class="is-size-6 has-text-light" type="text" placeholder="Search Google" tabindex="0" />
           </form>
 
           <div class="weather is-size-6">
@@ -147,7 +147,7 @@
                   </article>
                   <div class="colour-code field has-addons">
                     <div class="control">
-                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" />
+                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" value=""/>
                     </div>
                   </div>
                 </form>
@@ -175,25 +175,8 @@
   
               <div data-content="Bookmarks">
                 <nav class="panel is-size-7">
-                  <div class="bookmark-manager">
-                    <p class="panel-block is-active">
-                      <span class="panel-icon"><i class="fas fa-star" aria-hidden="true"></i></span>
-                      Example 1
-                      <span class="manager-buttons">
-                        <a class="has-text-primary" name="Collapse" aria-label="Collapse"><i class="fas fa-sort fa-s" aria-hidden="true"></i></a>
-                        <a class="has-text-primary" name="Close" aria-label="Close"><i class="fas fa-times fa-s" aria-hidden="true"></i></a>
-                      </span>
-                    </p>
-                    <p class="panel-block is-active">
-                      <span class="panel-icon has-text-weight-semibold">E</span>
-                      Example
-                      <span class="manager-buttons">
-                        <a class="has-text-primary" name="Collapse" aria-label="Collapse"><i class="fas fa-sort fa-s" aria-hidden="true"></i></a>
-                        <a class="has-text-primary" name="Close" aria-label="Close"><i class="fas fa-times fa-s" aria-hidden="true"></i></a>
-                      </span>
-                    </p>
-                  </div>
-                  <a class="panel-block has-text-primary has-background-white-ter">
+                  <div class="bookmark-manager"></div>
+                  <a class="manager-footer panel-block has-text-primary has-background-white-ter">
                     <span class="panel-icon has-text-primary"><i class="fas fa-plus" aria-hidden="true"></i></span>
                     Add new bookmark
                   </a>
@@ -208,11 +191,11 @@
                 <form class="temp-units radio-group field">
                   <label class="title is-size-7">Temperature Units</label>
                   <div class="checkbox-item field">
-                    <input id="celsiusRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" checked="checked" />
+                    <input id="celsiusRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" checked="checked" value="C"/>
                     <label for="celsiusRadio">Celsius, &deg;C</label>
                   </div>
                   <div class="checkbox-item field">
-                    <input id="fahrenheitRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" />
+                    <input id="fahrenheitRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" value="F"/>
                     <label for="fahrenheitRadio">Fahrenheit, &deg;F</label>
                   </div>
                 </form>
@@ -454,9 +437,17 @@
         </div>
       </form>
 
-      <!-- Bookmark Icon Templates -->
-      <!-- <a class="icon is-white has-text-primary" role="button" tabindex="0" aria-label=""><i class=""></i></a> -->
+      <!-- Bookmark Templates -->
       <a id="bookmarkTemplate" class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="" href="" target="_blank"></a>
+
+      <p id="managerTemplate" class="panel-block">
+        <span class="panel-icon has-text-weight-semibold"></span>
+        <span class="panel-name"></span>
+        <span class="manager-buttons">
+          <a class="has-text-primary" name="Sort" aria-label="Sort"><i class="fas fa-sort fa-s" aria-hidden="true"></i></a>
+          <a class="has-text-primary" name="Close" aria-label="Close"><i class="fas fa-times fa-s" aria-hidden="true"></i></a>
+        </span>
+      </p>
     </div>
   </body>
 </html>

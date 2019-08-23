@@ -8,7 +8,8 @@ html {
 input {
   word-break: normal; /* Fixes text wrapping on Safari */
 }
-button > * {
+button > *,
+a > i {
   pointer-events: none;
 }
 hr {
@@ -241,9 +242,6 @@ time {
 .sidebar > .container {
   width: 2.5em;
 }
-.sidebar a i {
-  pointer-events: none;
-}
 .icon.row {
   width: inherit;
 }
@@ -278,13 +276,15 @@ time {
 .panel {
   max-height: 50vh;
   overflow: auto;
-  word-break: break-all;
 }
 .manager-buttons {
   margin-left: auto;
 }
 .manager-buttons a {
   margin-left: 0.5em;
+}
+.manager-footer {
+  border-top: 1px solid #dbdbdb;
 }
 #addBookmark .field {
   margin-bottom: 1em !important;
