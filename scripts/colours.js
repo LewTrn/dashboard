@@ -141,7 +141,7 @@ function toRGB(code) {
   if (regex.hex.test(code)) 
     return hexToRGB(code);
   if (regex.rgb.test(code))
-    return code;
+    return hexToRGB(RGBToHex(code));
   if (regex.hsl.test(code))
     return HSLToRGB(code);
 

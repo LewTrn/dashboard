@@ -587,7 +587,7 @@ class Misc extends Card {
 
       if (rgb) {
         this.codes[0] = RGBToHex(rgb); // eslint-disable-line no-undef
-        this.codes[1] = rgb;
+        this.codes[1] = rgb; // eslint-disable-line no-undef
         this.codes[2] = RGBToHSL(rgb); // eslint-disable-line no-undef
 
         // Update preview box

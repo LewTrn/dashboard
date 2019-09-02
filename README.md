@@ -18,4 +18,4 @@ List of online resources used in this project.
 
 #### Lewis Tran
 
-[Twitter](https://twitter.com/LewTrn "twitter.com/LewTrn") | [LinkedIn](https://www.linkedin.com/in/lewis-tran/ "linkedin.com/in/lewis-tran") | [GitHub](https://github.com/LewTrn "github.com/LewTrn")
+[LinkedIn](https://www.linkedin.com/in/lewis-tran/ "linkedin.com/in/lewis-tran") | [GitHub](https://github.com/LewTrn "github.com/LewTrn")

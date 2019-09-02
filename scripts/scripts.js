@@ -161,9 +161,14 @@ function resetAlerts(form) {
     Board Scripts
 ---------------------------------------- */
 // Add Focus
-function addFocus() {
-  const input = this.querySelector('input');
-  const button = this.querySelector('button').parentNode;
+function addFocus(form, saved) {
+  const input = form.querySelector('input');
+  const button = form.querySelector('button').parentNode;
+
+  // Apply saved message
+  if (saved)
+    input.value = saved;
+
   const message = input.value.trim();
 
   // Check for valid trimmed message
@@ -174,19 +179,24 @@ function addFocus() {
 
     para.appendChild(text);
     para.classList.add('focus-message', 'has-text-primary');
-    this.appendChild(para);
+    form.appendChild(para);
 
     // Click to edit focus listener
     para.addEventListener('click', () => {
       button.toggleAttribute('hidden');
       input.setAttribute('type', 'text');
-      this.removeChild(this.lastChild);
+      form.removeChild(form.lastChild);
     });
 
     // Hide form field
     button.toggleAttribute('hidden');
     input.setAttribute('type', 'hidden');
     input.value = message;
+
+    // Update local storage
+    const today = new Date();
+
+    localStorage.setItem('focus', JSON.stringify([message, today.toDateString()]));
   } else {
     input.value = '';
   }
@@ -345,8 +355,9 @@ function removeBookmark(i) {
 ---------------------------------------- */
 // On Load Window Event
 window.addEventListener('load', () => {
-  const units = document.querySelector('.temp-units');
+  const focus = document.querySelector('.focus-banner form');
   const provider = document.querySelector('.search-provider');
+  const units = document.querySelector('.temp-units');
   
   const settings = new Settings();
 
@@ -364,6 +375,15 @@ window.addEventListener('load', () => {
 
   // Check local storage bookmarks
   updateBookmark();
+
+  // Check local storage focus
+  if (localStorage.getItem('focus')) {
+    const localFocus = JSON.parse(localStorage.getItem('focus'));
+    const today = new Date();
+    const message = today.toDateString() === localFocus[1] ? localFocus[0] : '';
+
+    addFocus(focus, message)
+  }
 
   // Sidebar interactions
   const sidebar = document.querySelector('.sidebar');
@@ -454,17 +474,16 @@ window.addEventListener('load', () => {
   // Initialising dashboard
   const banner = document.querySelector('.focus-banner');
   const bookmark = document.querySelector('#addBookmark form');
-  const focus = banner.querySelector('form');
   const search = document.querySelector('.search');
   const weather = document.querySelector('.weather');
 
   // Portrait interactions
-  search.querySelector('a').addEventListener('click', ()=> {clickSearch(settings)});
-  weather.addEventListener('click', ()=> {toggleModal('settings', 4)});
+  search.querySelector('a').addEventListener('click', () => {clickSearch(settings)});
+  weather.addEventListener('click', () => {toggleModal('settings', 4)});
 
   // Submit event listeners
-  focus.addEventListener('submit', addFocus);
-  search.addEventListener('submit', ()=> {settings.webSearch()});
+  focus.addEventListener('submit', e => {addFocus(e.target)});
+  search.addEventListener('submit', () => {settings.webSearch()});
   bookmark.addEventListener('submit', addBookmark);
 
   // Update focus panel
