@@ -160,7 +160,8 @@ function resetAlerts(form) {
 // Fetch and Update Weather
 function updateWeather() {
   const coordinates = JSON.parse(localStorage.getItem('coordinates'));
-  const api = `https://api.darksky.net/forecast/ca420a36227e83f3b5973ead080e6613/${coordinates[0]},${coordinates[1]}?exclude=minutely,hourly,daily,alerts,flags&units=auto`
+  const proxy = 'https://cors-anywhere.herokuapp.com/';
+  const api = `${proxy}https://api.darksky.net/forecast/ca420a36227e83f3b5973ead080e6613/${coordinates[0]},${coordinates[1]}?exclude=minutely,hourly,daily,alerts,flags&units=auto`
 
   fetch(api)
     .then(response => response.json())
@@ -455,7 +456,7 @@ window.addEventListener('load', () => {
   if (localStorage.getItem('coordinates')) {
     const coordinates = JSON.parse(localStorage.getItem('coordinates'));
     
-    latlong.querySelector('input').value = `${coordinates[0]}, ${coordinates[1]}`;
+    latlong.querySelector('input').setAttribute('value', `${coordinates[0]}, ${coordinates[1]}`);
     updateWeather();
   }
 
