@@ -6,7 +6,7 @@ class Settings {
   constructor() {
     this.name = '';
     this.provider = 'Google';
-    this.units = 'C';
+    this.background = 'Default';
   }
 
   // Search bar
@@ -48,6 +48,39 @@ class Settings {
     input.setAttribute('placeholder', `Search ${this.provider}`);
   }
 
+  // Update background
+  updateBackground() {
+    const images = document.querySelectorAll('.bg-img, .portrait');
+    const input = document.querySelector('.custom-background input');
+    const button = document.querySelector('.custom-background button');
+
+    let source = '../images/peyto-lake.jpg';
+
+    input.setAttribute('disabled', 'true');
+    button.setAttribute('disabled', 'true');
+
+    switch(this.background) {
+      case 'Daily':
+        source = 'https://source.unsplash.com/daily';
+        break;
+      case 'Custom': {
+        input.toggleAttribute('disabled');
+        button.toggleAttribute('disabled');
+
+        if (localStorage.getItem('unsplash'))
+          source = JSON.parse(localStorage.getItem('unsplash'))[1];
+        break;
+      }
+      default:
+        break;
+    }
+
+    images.forEach(el => {
+      el.style.background = `url("${source}") no-repeat center/cover`;
+    });
+  }
+
+  // Update radio forms
   updateRadio(form, key, target) {
     const inputs = form.querySelectorAll('input');
     let entry = this[key];
@@ -91,6 +124,30 @@ function clickSearch(setting) {
     setting.webSearch();
   else
     input.focus();
+}
+
+// Background Image Check
+function checkBackground() {
+  const url = document.querySelector('.custom-background input').value.trim();
+  const separated = url.split('/');
+
+  if (separated.length > 4) {
+    const key = separated[3].toLowerCase();
+    let id = separated[4];
+
+    // Photo or collection check
+    switch (key) {
+      case 'photos':
+      case 'collections':
+        if (key === 'collections')
+          id = `collection/${id}`;
+        break;
+      default:
+        break;
+    }
+
+    localStorage.setItem('unsplash', JSON.stringify([url, `https://source.unsplash.com/${id}`]));
+  }
 }
 
 // Time and Date Display
@@ -168,8 +225,6 @@ function updateWeather() {
     .then(data => {
       const weather = document.querySelector('.weather');
       const forecast = document.querySelector('#skycon');
-
-      console.log(data);
 
       if ('error' in data) {
         weather.querySelector('a').innerText = 'Invalid Location';
@@ -425,6 +480,7 @@ function removeBookmark(i) {
 window.addEventListener('load', () => {
   const focus = document.querySelector('.focus-banner form');
   const provider = document.querySelector('.search-provider');
+  const background = document.querySelector('.board-background');
   const latlong = document.querySelector('.weather-location');
   
   const settings = new Settings();
@@ -438,6 +494,9 @@ window.addEventListener('load', () => {
     settings.updateName(settings.name);
     settings.updateRadio(provider, 'provider');
     settings.updateProvider();
+
+    settings.updateRadio(background, 'background');
+    settings.updateBackground();
   }
 
   // Check local storage bookmarks
@@ -452,12 +511,22 @@ window.addEventListener('load', () => {
     addFocus(focus, message)
   }
 
+  // Check local storage background
+  if (localStorage.getItem('unsplash')) {
+    const input = document.querySelector('.custom-background input');
+    const source = JSON.parse(localStorage.getItem('unsplash'));
+
+    input.setAttribute('value', source[0]);
+  }
+
   // Check local storage location
   if (localStorage.getItem('coordinates')) {
     const coordinates = JSON.parse(localStorage.getItem('coordinates'));
     
     latlong.querySelector('input').setAttribute('value', `${coordinates[0]}, ${coordinates[1]}`);
     updateWeather();
+  } else {
+    document.querySelector('.weather a').innerText = 'Set Weather Forecast Location';
   }
 
   // Sidebar interactions
@@ -516,9 +585,20 @@ window.addEventListener('load', () => {
     });
 
     provider.addEventListener('click', e => {
-      settings.updateRadio(provider, 'provider', e.target);
-      settings.updateProvider();
-      e.stopImmediatePropagation();
+      if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'label') {
+        settings.updateRadio(provider, 'provider', e.target);
+        settings.updateProvider();
+        e.stopImmediatePropagation();
+      }
+    });
+
+    // Background
+    background.addEventListener('click', e => {
+      if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'label') {
+        settings.updateRadio(background, 'background', e.target);
+        settings.updateBackground();
+        e.stopImmediatePropagation();
+      }
     });
 
     // Bookmarks
@@ -548,9 +628,10 @@ window.addEventListener('load', () => {
   });
 
   // Initialising dashboard
+  const unsplash = document.querySelector('.custom-background');
   const banner = document.querySelector('.focus-banner');
-  const location = document.querySelector('.weather-location');
   const bookmark = document.querySelector('#addBookmark form');
+  const location = document.querySelector('.weather-location');
   const search = document.querySelector('.search');
   const weather = document.querySelector('.weather');
 
@@ -563,6 +644,7 @@ window.addEventListener('load', () => {
   search.addEventListener('submit', () => {settings.webSearch()});
   bookmark.addEventListener('submit', addBookmark);
   location.addEventListener('submit', updateCoords);
+  unsplash.addEventListener('submit', () => {checkBackground(); settings.updateBackground()});
 
   // Update focus panel
   updateWelcome();

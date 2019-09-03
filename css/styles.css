@@ -5,6 +5,9 @@ html {
   overflow: hidden;
   font-size: 24px;
 }
+body {
+  line-height: 1.4;
+}
 input {
   word-break: normal; /* Fixes text wrapping on Safari */
 }
@@ -49,7 +52,6 @@ hr {
 }
 .checkbox-item label {
   padding-top: 0.1em !important;
-  line-height: 1.4;
 }
 .grab-cursor:hover {
   cursor: grab;
@@ -112,11 +114,6 @@ hr {
   top: 1em;
   right: 1em;
 }
-.image-location {
-  position: absolute;
-  bottom: 1em;
-  left: 1em;
-}
 time {
   position: absolute;
   bottom: 1em;
@@ -158,6 +155,7 @@ time {
 }
 .weather.is-size-5 {
   top: 0.6em;
+  cursor: pointer;
 }
 .weather a {
   vertical-align: super;
@@ -282,6 +280,9 @@ time {
 .panel {
   max-height: 50vh;
   overflow: auto;
+}
+.custom-background {
+  padding-left: 1.8rem;
 }
 .manager-buttons {
   margin-left: auto;

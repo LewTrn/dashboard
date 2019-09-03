@@ -88,13 +88,8 @@
           </form>
 
           <div class="weather is-size-6">
-            <a class="has-text-white">Set Weather Forecast Location</a>
+            <a class="has-text-white">Weather Currently Unavailable</a>
             <canvas id="skycon" width="45" height="45" hidden></canvas>
-          </div>
-
-          <div class="image-location is-size-6">
-            <span class="icon is-small is-left"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></span>
-            <span>Peyto Lake, Canada</span>
           </div>
 
           <time datetime="2019-01-01 08:00">
@@ -134,7 +129,7 @@
             <div class="tabs is-small is-centered title has-text-primary">
               <ul>
                 <li><a>Getting Started</a></li>
-                <li><a>Appearance</a></li>
+                <li><a>Background</a></li>
                 <li><a>Bookmarks</a></li>
                 <li><a>Weather</a></li>
               </ul>
@@ -144,12 +139,12 @@
                 <form class="personal-name field" onsubmit="return false">
                   <article class="message is-primary is-size-7">
                     <div class="message-body">
-                      <p>Enter your name to personalise your Dashpoint experience</a>.</p>
+                      <p>Enter your name to personalise your Dashpoint experience.</p>
                     </div>
                   </article>
                   <div class="field has-addons">
                     <div class="control">
-                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" value=""/>
+                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" value="" />
                     </div>
                   </div>
                 </form>
@@ -157,7 +152,7 @@
                 <form class="search-provider radio-group field">
                   <label class="title is-size-7">Search Provider</label>
                   <div class="checkbox-item field">
-                    <input id="googleRadio" class="is-checkradio is-circle is-small" type="radio" name="Search Provider" value="Google" checked/>
+                    <input id="googleRadio" class="is-checkradio is-circle is-small" type="radio" name="Search Provider" value="Google" checked />
                     <label for="googleRadio">Google</label>
                   </div>
                   <div class="checkbox-item field">
@@ -171,10 +166,41 @@
                 </form>
               </div>
 
-              <div data-content="Appearance">
-                <p>Unsplash API</p>
+              <div data-content="Background">
+                <article class="message is-primary is-size-7">
+                  <div class="message-body">
+                    <p>Dashpoint supports background images by <a class="has-text-primary" href="https://unsplash.com" target="_blank">Unsplash.com</a>.</p>
+                    <br />
+                    <p>To use a custom Unsplash image or collection, select the <b>Custom Unsplash Photo</b> option and enter the URL of the Unsplash image or collection.</p>
+                  </div>
+                </article>
+                <form class="board-background radio-group field">
+                  <label class="title is-size-7">Background</label>
+                  <div class="checkbox-item field">
+                    <input id="defaultRadio" class="is-checkradio is-circle is-small" type="radio" name="Background" value="Default" checked />
+                    <label for="defaultRadio">Default</label>
+                  </div>
+                  <div class="checkbox-item field">
+                    <input id="dailyRadio" class="is-checkradio is-circle is-small" type="radio" name="Background" value="Daily" />
+                    <label for="dailyRadio">Random Daily Photo</label>
+                  </div>
+                  <div class="checkbox-item field">
+                    <input id="imageRadio" class="is-checkradio is-circle is-small" type="radio" name="Background" value="Custom" />
+                    <label for="imageRadio">Custom Unsplash Photo</label>
+                  </div>
+                </form>
+                <form class="custom-background subtitle" onsubmit="return false">
+                  <div class="field has-addons">
+                    <div class="control is-expanded">
+                      <input class="input is-primary is-small" type="text" placeholder="e.g. https://unsplash.com/photos/jWskS_wLMDo" pattern="^(https://unsplash.com/)[a-zA-Z0-9/\-_]+" required disabled />
+                    </div>
+                    <div class="control">
+                      <button class="button is-primary is-small" disabled><i class="fas fa-location-arrow" aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+                </form>
               </div>
-  
+
               <div data-content="Bookmarks">
                 <nav class="panel is-size-7">
                   <div class="bookmark-manager"></div>
@@ -184,16 +210,16 @@
                   </a>
                 </nav>
               </div>
-  
+
               <div data-content="Weather">
                 <article class="message is-primary is-size-7">
                   <div class="message-body">
-                    <p>Dashpoint delivers current weather forecasts based on the entered latitude and longitude.</p>
+                    <p>Dashpoint delivers current weather forecasts based on the entered <b>latitude</b> and <b>longitude</b>.</p>
                   </div>
                 </article>
                 <form class="weather-location subtitle" onsubmit="return false">
                   <div class="field has-addons">
-                    <div class="add-focus control is-expanded">
+                    <div class="control is-expanded">
                       <input class="input is-primary is-small" type="text" placeholder="e.g. 51.4934, 0.0098" required />
                     </div>
                     <div class="control">
@@ -207,7 +233,7 @@
                     <p>Please enable location settings in your browser.</p>
                   </div>
                 </article>
-                <a class="has-text-primary is-pulled-right" href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
+                <a class="has-text-primary is-pulled-right" href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a>
               </div>
             </div>
           </section>
