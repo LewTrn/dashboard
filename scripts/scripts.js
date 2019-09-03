@@ -53,8 +53,7 @@ class Settings {
     const images = document.querySelectorAll('.bg-img, .portrait');
     const input = document.querySelector('.custom-background input');
     const button = document.querySelector('.custom-background button');
-
-    let source = '../images/peyto-lake.jpg';
+    let source;
 
     input.setAttribute('disabled', 'true');
     button.setAttribute('disabled', 'true');
@@ -62,22 +61,30 @@ class Settings {
     switch(this.background) {
       case 'Daily':
         source = 'https://source.unsplash.com/daily';
+
+        images.forEach(el => {
+          el.style.background = `url("${source}") no-repeat center/cover`;
+        });
         break;
       case 'Custom': {
         input.toggleAttribute('disabled');
         button.toggleAttribute('disabled');
 
-        if (localStorage.getItem('unsplash'))
+        if (localStorage.getItem('unsplash')) {
           source = JSON.parse(localStorage.getItem('unsplash'))[1];
+
+          images.forEach(el => {
+            el.style.background = `url("${source}") no-repeat center/cover`;
+          });
+        }
         break;
       }
       default:
+        images.forEach(el => {
+          el.removeAttribute('style');
+        });     
         break;
     }
-
-    images.forEach(el => {
-      el.style.background = `url("${source}") no-repeat center/cover`;
-    });
   }
 
   // Update radio forms
