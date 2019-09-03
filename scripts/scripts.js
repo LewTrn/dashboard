@@ -157,6 +157,73 @@ function resetAlerts(form) {
   });
 }
 
+// Fetch and Update Weather
+function updateWeather() {
+  const coordinates = JSON.parse(localStorage.getItem('coordinates'));
+  const api = `https://api.darksky.net/forecast/ca420a36227e83f3b5973ead080e6613/${coordinates[0]},${coordinates[1]}?exclude=minutely,hourly,daily,alerts,flags&units=auto`
+
+  fetch(api)
+    .then(response => response.json())
+    .then(data => {
+      const weather = document.querySelector('.weather');
+      const forecast = document.querySelector('#skycon');
+
+      console.log(data);
+
+      if ('error' in data) {
+        weather.querySelector('a').innerText = 'Invalid Location';
+        weather.classList.remove('is-size-5');
+        weather.classList.add('is-size-6');
+
+        forecast.setAttribute('hidden', 'true');
+      } else {
+        const skycons = new Skycons({'color': 'white'});
+        
+        weather.querySelector('a').innerText = `${Math.round(data.currently.apparentTemperature)}°`;
+        skycons.add(document.getElementById('skycon'), data.currently.icon);
+        skycons.play();
+
+        weather.classList.add('is-size-5');
+        weather.classList.remove('is-size-6');
+
+        forecast.removeAttribute('hidden');
+      }
+    });
+}
+
+// Geolocation functions - Allowed
+function allow(pos) {
+  const input = document.querySelector('.weather-location input');
+  const warning = document.querySelector('[data-content="Weather"] .is-danger');
+
+  input.value = `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+  warning.classList.add('is-hidden');
+}
+
+// Geolocation functions - Blocked
+function block() {
+  const warning = document.querySelector('[data-content="Weather"] .is-danger');
+
+  warning.classList.remove('is-hidden');
+}
+
+// Update Latitude and Longitude
+function updateCoords() {
+  const input = document.querySelector('.weather-location input');
+  const coordinates = input.value.replace(/ |\+/g, '').split(',');
+  const warning = document.querySelector('[data-content="Weather"] .is-danger');
+
+  warning.classList.add('is-hidden');
+
+  if (coordinates.length > 1) {
+    const lat = coordinates[0];
+    const long = coordinates[1];
+
+    localStorage.setItem('coordinates', JSON.stringify([lat, long]));
+    updateWeather();
+  }
+}
+
 /* ----------------------------------------
     Board Scripts
 ---------------------------------------- */
@@ -357,7 +424,7 @@ function removeBookmark(i) {
 window.addEventListener('load', () => {
   const focus = document.querySelector('.focus-banner form');
   const provider = document.querySelector('.search-provider');
-  const units = document.querySelector('.temp-units');
+  const latlong = document.querySelector('.weather-location');
   
   const settings = new Settings();
 
@@ -369,7 +436,6 @@ window.addEventListener('load', () => {
     
     settings.updateName(settings.name);
     settings.updateRadio(provider, 'provider');
-    settings.updateRadio(units, 'units');
     settings.updateProvider();
   }
 
@@ -383,6 +449,14 @@ window.addEventListener('load', () => {
     const message = today.toDateString() === localFocus[1] ? localFocus[0] : '';
 
     addFocus(focus, message)
+  }
+
+  // Check local storage location
+  if (localStorage.getItem('coordinates')) {
+    const coordinates = JSON.parse(localStorage.getItem('coordinates'));
+    
+    latlong.querySelector('input').value = `${coordinates[0]}, ${coordinates[1]}`;
+    updateWeather();
   }
 
   // Sidebar interactions
@@ -466,13 +540,15 @@ window.addEventListener('load', () => {
     });
 
     // Weather
-    units.addEventListener('click', e => {
-      settings.updateRadio(units, 'units', e.target);
-    });
+    latlong.addEventListener('click', e => {
+      if (e.target.tagName.toLowerCase() === 'a' && e.target.classList.contains('is-size-7'))
+        navigator.geolocation.getCurrentPosition(allow, block);
+    })
   });
 
   // Initialising dashboard
   const banner = document.querySelector('.focus-banner');
+  const location = document.querySelector('.weather-location');
   const bookmark = document.querySelector('#addBookmark form');
   const search = document.querySelector('.search');
   const weather = document.querySelector('.weather');
@@ -485,6 +561,7 @@ window.addEventListener('load', () => {
   focus.addEventListener('submit', e => {addFocus(e.target)});
   search.addEventListener('submit', () => {settings.webSearch()});
   bookmark.addEventListener('submit', addBookmark);
+  location.addEventListener('submit', updateCoords);
 
   // Update focus panel
   updateWelcome();

@@ -156,6 +156,12 @@ time {
   margin-bottom: 0;
   width: 100%;
 }
+.weather.is-size-5 {
+  top: 0.6em;
+}
+.weather a {
+  vertical-align: super;
+}
 
 /* ----------------------------------------
     Card Styles

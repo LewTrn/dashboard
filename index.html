@@ -15,6 +15,7 @@
     <script type="text/javascript" src="scripts/scripts.js" defer></script>
     <script type="text/javascript" src="scripts/colours.js" defer></script>
     <script type="text/javascript" src="scripts/cards.js" defer></script>
+    <script type="text/javascript" src="scripts/skycons.js" defer></script>
 
     <!-- Local Styles -->
     <link rel="stylesheet" type="text/css" href="css/bulma.css" />
@@ -87,7 +88,8 @@
           </form>
 
           <div class="weather is-size-6">
-            <a class="has-text-white">Weather Currently Unavailable</a>
+            <a class="has-text-white">Set Weather Forecast Location</a>
+            <canvas id="skycon" width="45" height="45" hidden></canvas>
           </div>
 
           <div class="image-location is-size-6">
@@ -186,26 +188,26 @@
               <div data-content="Weather">
                 <article class="message is-primary is-size-7">
                   <div class="message-body">
-                    <p>Enter your location to see your local weather forecast.</a>.</p>
+                    <p>Dashpoint delivers current weather forecasts based on the entered latitude and longitude.</p>
                   </div>
                 </article>
-                <div class="field has-addons">
-                  <div class="control is-expanded">
-                    <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter a location" value=""/>
+                <form class="weather-location subtitle" onsubmit="return false">
+                  <div class="field has-addons">
+                    <div class="add-focus control is-expanded">
+                      <input class="input is-primary is-small" type="text" placeholder="e.g. 51.4934, 0.0098" required />
+                    </div>
+                    <div class="control">
+                      <button class="button is-primary is-small"><i class="fas fa-location-arrow" aria-hidden="true"></i></button>
+                    </div>
                   </div>
-                </div>
-                <hr>
-                <form class="temp-units radio-group field">
-                  <label class="title is-size-7">Temperature Units</label>
-                  <div class="checkbox-item field">
-                    <input id="celsiusRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" checked="checked" value="C"/>
-                    <label for="celsiusRadio">Celsius, &deg;C</label>
-                  </div>
-                  <div class="checkbox-item field">
-                    <input id="fahrenheitRadio" class="is-checkradio is-circle is-small" type="radio" name="Temperature Units" value="F"/>
-                    <label for="fahrenheitRadio">Fahrenheit, &deg;F</label>
-                  </div>
+                  <a class="has-text-primary is-size-7">Click to use your location</a>
                 </form>
+                <article class="message is-danger is-size-7 is-hidden">
+                  <div class="message-body">
+                    <p>Please enable location settings in your browser.</p>
+                  </div>
+                </article>
+                <a class="has-text-primary is-pulled-right" href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
               </div>
             </div>
           </section>
