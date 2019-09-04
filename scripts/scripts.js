@@ -223,10 +223,14 @@ function resetAlerts(form) {
 
 // Fetch and Update Weather
 function updateWeather() {
+  const latlong = document.querySelector('.weather-location');
   const coordinates = JSON.parse(localStorage.getItem('coordinates'));
   const proxy = 'https://cors-anywhere.herokuapp.com/';
   const api = `${proxy}https://api.darksky.net/forecast/ca420a36227e83f3b5973ead080e6613/${coordinates[0]},${coordinates[1]}?exclude=minutely,hourly,daily,alerts,flags&units=auto`
 
+  latlong.querySelector('input').setAttribute('value', `${coordinates[0]}, ${coordinates[1]}`);
+
+  // Fetch Dark Sky API
   fetch(api)
     .then(response => response.json())
     .then(data => {
@@ -527,14 +531,10 @@ window.addEventListener('load', () => {
   }
 
   // Check local storage location
-  if (localStorage.getItem('coordinates')) {
-    const coordinates = JSON.parse(localStorage.getItem('coordinates'));
-    
-    latlong.querySelector('input').setAttribute('value', `${coordinates[0]}, ${coordinates[1]}`);
+  if (localStorage.getItem('coordinates'))
     updateWeather();
-  } else {
+  else
     document.querySelector('.weather a').innerText = 'Set Weather Forecast Location';
-  }
 
   // Sidebar interactions
   const sidebar = document.querySelector('.sidebar');

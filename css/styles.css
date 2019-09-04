@@ -29,6 +29,10 @@ hr {
   filter: blur(3px);
   z-index: -1;
 }
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after {
+  font-size: 0.7em;
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar {
