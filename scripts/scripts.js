@@ -153,7 +153,7 @@ function checkBackground() {
         break;
     }
 
-    localStorage.setItem('unsplash', JSON.stringify([url, `https://source.unsplash.com/${id}`]));
+    localStorage.setItem('unsplash', JSON.stringify([url, `https://source.unsplash.com/${id}/3000x2000`]));
   }
 }
 

@@ -164,6 +164,10 @@ time {
 .weather a {
   vertical-align: super;
 }
+.tabs ul {
+  max-width: 100%;
+  flex-wrap: wrap;
+}
 
 /* ----------------------------------------
     Card Styles
@@ -306,4 +310,63 @@ time {
 }
 .is-short {
   width: 40%;
+}
+
+/* ----------------------------------------
+    Media Queries
+---------------------------------------- */
+/* Viewport Width Queries */
+@media only screen and (min-width: 1600px) {
+  html {
+    font-size: calc(4px + 1vw);
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1599px) {
+  html {
+    font-size: 20px;
+  }
+}
+@media only screen and (min-width: 700px) and (max-width: 1199px) {
+  html {
+    font-size: calc(8px + 1vw);
+  }
+}
+@media only screen and (min-width: 700px) and (orientation: portrait) {
+  .board > .container {
+    min-width: 50vw;
+    resize: none;
+    overflow: hidden;
+  }
+}
+@media only screen and (max-width: 799px) and (orientation: portrait), only screen and (max-width: 699px) {
+  html {
+    font-size: calc(16px + 1vw);
+  }
+  .board {
+    flex-grow: 1;
+  }
+  .board > .container {
+    max-width: none;
+    resize: none;
+    overflow: hidden;
+  }
+  .portrait {
+    display: none;
+  }
+  .time-input {
+    display: flex;
+    max-width: 100vw;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .modal-card {
+    padding: 10px;
+  }
+}
+
+/* Viewport Height Queries */
+@media only screen and (max-height: 700px) {
+  .brand {
+    display: none;
+  }
 }
