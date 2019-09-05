@@ -5,6 +5,7 @@
     <meta name="description" content="A dynamic personal dashboard for focus and productivity." />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dashpoint | Personal Dashboard</title>
+    <link rel="icon" type="images/png" href="../images/dashpoint.png" />
 
     <!-- CDN Resources -->
     <script src="https://kit.fontawesome.com/a0c3a8c94c.js"></script>
@@ -56,10 +57,10 @@
                 <form class="subtitle" onsubmit="return false">
                   <div class="field has-addons">
                     <div class="add-focus control is-expanded">
-                      <input class="input is-primary" type="text" placeholder="Add today's focus" required />
+                      <input class="input is-primary" type="text" placeholder="Add today's focus" aria-label="Focus message" required />
                     </div>
                     <div class="control">
-                      <button class="button is-primary"><i class="fas fa-arrow-circle-right" aria-hidden="true"></i></button>
+                      <button class="button is-primary" aria-label="Save focus"><i class="fas fa-arrow-circle-right" aria-hidden="true"></i></button>
                     </div>
                   </div>
                 </form>
@@ -80,7 +81,7 @@
         <div class="container">
           <form class="search" onsubmit="return false">
             <a class="icon is-small is-left has-text-light padding-h"><i class="fas fa-search" aria-hidden="true"></i></a>
-            <input class="is-size-6 has-text-light" type="text" placeholder="Search Google" tabindex="0" />
+            <input class="is-size-6 has-text-light" type="text" placeholder="Search Google" tabindex="0" aria-label="Search" />
           </form>
 
           <div class="weather is-size-6">
@@ -140,7 +141,7 @@
                   </article>
                   <div class="field has-addons">
                     <div class="control">
-                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" value="" />
+                      <input class="themed input is-size-7 is-primary" type="text" placeholder="Enter your name" value="" aria-label="Enter name" />
                     </div>
                   </div>
                 </form>
@@ -165,7 +166,7 @@
               <div data-content="Background">
                 <article class="message is-primary is-size-7">
                   <div class="message-body">
-                    <p>Dashpoint supports background images by <a class="has-text-primary" href="https://unsplash.com" target="_blank">Unsplash.com</a>.</p>
+                    <p>Dashpoint supports background images by <a class="has-text-primary" href="https://unsplash.com" target="_blank" rel="noreferrer">Unsplash.com</a>.</p>
                     <br />
                     <p>To use a custom Unsplash image or collection, select the <b>Custom Unsplash Photo</b> option and enter the URL of the Unsplash image or collection.</p>
                   </div>
@@ -188,10 +189,10 @@
                 <form class="custom-background subtitle" onsubmit="return false">
                   <div class="field has-addons">
                     <div class="control is-expanded">
-                      <input class="input is-primary is-small" type="text" placeholder="e.g. https://unsplash.com/photos/jWskS_wLMDo" pattern="^(https://unsplash.com/)[a-zA-Z0-9/\-_]+" required disabled />
+                      <input class="input is-primary is-small" type="text" placeholder="e.g. https://unsplash.com/photos/jWskS_wLMDo" pattern="^(https://unsplash.com/)[a-zA-Z0-9/\-_]+" aria-label="Enter Unsplash URL" required disabled />
                     </div>
                     <div class="control">
-                      <button class="button is-primary is-small" disabled><i class="fas fa-location-arrow" aria-hidden="true"></i></button>
+                      <button class="button is-primary is-small" aria-label="Save URL location" disabled><i class="fas fa-save" aria-hidden="true"></i></button>
                     </div>
                   </div>
                 </form>
@@ -216,10 +217,10 @@
                 <form class="weather-location subtitle" onsubmit="return false">
                   <div class="field has-addons">
                     <div class="control is-expanded">
-                      <input class="input is-primary is-small" type="text" placeholder="e.g. 51.4934, 0.0098" required />
+                      <input class="input is-primary is-small" type="text" placeholder="e.g. 51.4934, 0.0098" aria-label="Latitude and longitude" required />
                     </div>
                     <div class="control">
-                      <button class="button is-primary is-small"><i class="fas fa-location-arrow" aria-hidden="true"></i></button>
+                      <button class="button is-primary is-small" aria-label="Save location"><i class="fas fa-location-arrow" aria-hidden="true"></i></button>
                     </div>
                   </div>
                   <a class="has-text-primary is-size-7">Click to use your location</a>
@@ -229,7 +230,7 @@
                     <p>Please enable location settings in your browser.</p>
                   </div>
                 </article>
-                <a class="has-text-primary is-pulled-right" href="https://darksky.net/poweredby/" target="_blank">Powered by Dark Sky</a>
+                <a class="has-text-primary is-pulled-right" href="https://darksky.net/poweredby/" target="_blank" rel="noreferrer">Powered by Dark Sky</a>
               </div>
             </div>
           </section>
@@ -251,14 +252,14 @@
                 <div class="field">
                   <label class="title is-size-7">Name</label>
                   <div class="control is-short">
-                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. Example" required />
+                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. Example" aria-label="Bookmark name" required />
                   </div>
                 </div>
 
                 <div class="field">
                   <label class="title is-size-7">URL</label>
                   <div class="control">
-                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. https://www.example.com" required />
+                    <input class="input is-size-7 is-primary" type="text" placeholder="e.g. https://www.example.com" aria-label="Bookmark URL" required />
                   </div>
                   <p class="help is-danger is-hidden">Invalid URL</p>
                 </div>
@@ -267,7 +268,7 @@
                   <label class="title is-size-7">Icon (Optional)</label>
                   <div class="field has-addons">
                     <p class="control is-short">
-                      <input class="input is-size-7 is-primary" type="text" placeholder="e.g. star" />
+                      <input class="input is-size-7 is-primary" type="text" placeholder="e.g. star" aria-label="Bookmark icon" />
                     </p>
                     <p class="control">
                       <span class="select is-size-7 is-primary">
@@ -283,7 +284,7 @@
 
                 <article class="message is-primary is-size-7">
                   <div class="message-body">
-                    <p>To add a custom Font Awesome icon, enter the icon name and icon type found at <a class="has-text-primary" href="https://fontawesome.com/cheatsheet/free/solid" target="_blank">Font Awesome's Free's Cheatsheet</a>.</p>
+                    <p>To add a custom Font Awesome icon, enter the icon name and icon type found at <a class="has-text-primary" href="https://fontawesome.com/cheatsheet/free/solid" target="_blank" rel="noreferrer">Font Awesome's Free's Cheatsheet</a>.</p>
                   </div>
                 </article>
 
@@ -319,7 +320,7 @@
       <!-- Notepad Template -->
       <form id="notepadTemplate" class="notepad">
         <div class="control">
-          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" />
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" aria-label="Title" />
           <textarea class="themed textarea is-size-7 is-primary" placeholder="Note"></textarea>
         </div>
 
@@ -335,10 +336,10 @@
       <!-- To-do List Template -->
       <form id="to-doTemplate" class="to-do" onsubmit="return false">
         <div class="control">
-          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" />
+          <input class="themed input is-size-7 is-primary" type="text" placeholder="Title" form="none" aria-label="Title" />
           <div class="to-do-add field has-addons">
             <div class="control is-expanded">
-              <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item" />
+              <input class="themed input is-size-7 is-primary" type="text" placeholder="New list item" aria-label="New list item" />
             </div>
             <div class="control">
               <button class="themed button is-size-7 is-primary" name="Add" aria-label="Add item" type="submit">Add</button>
@@ -431,7 +432,7 @@
 
         <div class="colour-code field has-addons">
           <div class="control is-expanded">
-            <input class="themed input is-size-7 is-primary" type="text" placeholder="Hex, RGB or HSL" required />
+            <input class="themed input is-size-7 is-primary" type="text" placeholder="Hex, RGB or HSL" aria-label="Colour code" required />
           </div>
           <div class="control">
             <button class="themed button is-size-7 is-primary" name="Convert" aria-label="Convert" type="submit">Convert</button>
@@ -469,7 +470,7 @@
       </form>
 
       <!-- Bookmark Templates -->
-      <a id="bookmarkTemplate" class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="" href="" target="_blank"></a>
+      <a id="bookmarkTemplate" class="icon is-white has-text-primary" role="button" tabindex="0" aria-label="" href="" target="_blank" rel="noreferrer"></a>
 
       <p id="managerTemplate" class="panel-block">
         <span class="panel-icon has-text-weight-semibold"></span>
