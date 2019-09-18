@@ -6,6 +6,8 @@ Inspired by the Momentum browser extension, Dashpoint provides users with a styl
 
 [Try out Dashpoint](https://lewtrn.github.io/dashpoint/ "lewtrn.github.io")
 
+![Dashpoint](/images/screenshot.png)
+
 ## Features
 
 Dashpoint offers a range of customisable workflow tools and features including:
