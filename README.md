@@ -1,6 +1,6 @@
 # Dashpoint
 
-Dashpoint is a dynamic personal dashboard for focus and productivity.
+**A dynamic personal dashboard for focus and productivity**
 
 Inspired by the Momentum browser extension, Dashpoint provides users with a stylish, yet practical, start page for improving personal focus and workflow. The goal was to develop a lightweight, customisable dashboard focused on utility and user experience.
 
@@ -13,7 +13,7 @@ Inspired by the Momentum browser extension, Dashpoint provides users with a styl
 Dashpoint offers a range of customisable workflow tools and features including:
 
 - A personal daily focus message
-- Modular tool cards (for to-do lists, timers, calculators etc.)
+- Tool card modules (notepad, to-do list, timers, calculators, colour converter)
 - Support for custom dashboard backgrounds via Unsplash
 - Integrated weather API for displaying local weather forecasts
 - Integrated custom bookmarks bar
