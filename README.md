@@ -11,7 +11,7 @@ Inspired by the Momentum browser extension, Dashpoint provides users with a styl
 Dashpoint offers a range of customisable workflow tools and features including:
 
 - A personal daily focus message
-- Modular tool cards (for to-do lists, timers, calculators etc.)
+- Tool card modules (notepad, to-do list, timers, calculators, colour converter)
 - Support for custom dashboard backgrounds via Unsplash
 - Integrated weather API for displaying local weather forecasts
 - Integrated custom bookmarks bar
